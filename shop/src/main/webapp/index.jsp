@@ -1,5 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  
+<%@ page import = "vo.Customer" %>    
+<%@ page import = "vo.Employee" %>  
+      
+<%
+
+	if(session.getAttribute("user") == null) { // 로긴한 애가 아니면
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+			
+		return;
+	} 
+
+	
+		
+%>    
+    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
