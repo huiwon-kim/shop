@@ -90,7 +90,7 @@
         <div class="col-md-8"> <!-- ★ -->
         
         	<h1> Customer </h1>
-          <form action="<%=request.getContextPath()%>/customerloginAction.jsp" id="customerForm" method="post" class="probootstrap-form mb60">
+          <form action="<%=request.getContextPath()%>/haus/haus/customerloginAction.jsp" id="customerForm" method="post" class="probootstrap-form mb60">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -119,7 +119,7 @@
            <!--  --> 
             
            <h1> Employee </h1>
-          <form action="<%=request.getContextPath()%>/employeeloginAction.jsp" id="customerForm" method="post" class="probootstrap-form mb60">
+          <form action="<%=request.getContextPath()%>/haus/haus/employeeloginAction.jsp" id="customerForm" method="post" class="probootstrap-form mb60">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">

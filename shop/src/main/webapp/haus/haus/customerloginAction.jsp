@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@page import="repository.ModelDao"%>
+<%@page import="repository.CustomerDao"%>
+<%@page import="service.CustomerService"%>
 <%@page import="vo.Customer"%>
     
     
 <%
-        p
-
-
+  
                 	request.setCharacterEncoding("utf-8");
 
                 	// 변수 받아오기
@@ -22,34 +21,33 @@
                 	
                 	
                 	// Customer 객체 만들기
-                	Customer customer = new Customer();
-                	customer.setCustomerId(customerId);
-                	customer.setCustomerPass(customerPass);
+                	Customer paramCustomer = new Customer();
+                	paramCustomer.setCustomerId(customerId);
+                	paramCustomer.setCustomerPass(customerPass);
                 	
                 	// 디버깅
                 	System.out.println(customerId+ "<-customerId");
                 	System.out.println(customerPass+ "<-customerPass");
                 	
+                
                 	
-                	// MemberDao 객체 만들기
-                	repository.ModelDao memberDao = new repository.ModelDao();
-                	System.out.println(memberDao +"<-memberDao");
+                	//CustomerService 객체 만들기?
+                	CustomerService customerService = new CustomerService();
                 	
-                	
-                	// login 메서드 사용
-                	Customer login = memberDao.Clogin(customer);
+                	// select Customer 메서드 사용
+                	Customer login = customerService.loginCustomer(paramCustomer);
                 	
                 	
                 	if(login !=null) {
                 		System.out.println("성공");		
-                		session.setAttribute("user", "customer"); //세션에 넣는거 
+                		session.setAttribute("user", "Customer"); //세션에 넣는거 
                 		session.setAttribute("id", login.getCustomerId());
                 		session.setAttribute("name", login.getCustomerName());
-                		response.sendRedirect(request.getContextPath()+"/ourindl,,,ex.jsp");	// 다이렉트
+                		response.sendRedirect(request.getContextPath()+"/haus/haus/ourindex.jsp");	// 다이렉트
                 		
                 	}else { // 로그인 실패
                 		
-                		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+                		response.sendRedirect(request.getContextPath()+"/haus/haus/loginForm.jsp");
                 		
                 		System.out.println("실패");		
                 	}

@@ -1,28 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    
-<%@ page import = "vo.Customer" %>    
-<%@ page import = "vo.Employee" %>  
-      
-<%
 
-	if(session.getAttribute("user") == null) { // 로긴한 애가 아니면
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
-			
-		return;
-	} 
 
-	
-		
-%>       
-    
-    
-    
-    
-    
-    
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -88,37 +67,40 @@
 
             <div class="page-title probootstrap-animate">
               <div class="probootstrap-breadcrumbs">
-                <a href="#">Home</a><span>Info</span>
+                <a href="#">Home</a><span>내용기입</span>
               </div>
-              <h1>Info</h1>
+              <h1>내용기입</h1>
             </div>
 
           </div>
         </div>
       </div>
     </div>
-
+    <ul class="slides">
+      <li style="background-image: url(img/slider_1.jpg);"></li>
+      <li style="background-image: url(img/slider_4.jpg);"></li>
+      <li style="background-image: url(img/slider_2.jpg);"></li>
+    </ul>
   </section>
   <!-- END: slider  -->
-
+  
   <section class="probootstrap-section">
     <div class="container">
-      <div class="row heading">
-        <div class="col-md-12"><h2 class="mt0 mb50 text-center">Info</h2></div>
-      </div>
-   
-      <div class="row">
-        <div class="col-md-6">
-          <h2><%=session.getAttribute("user") %> / <%=session.getAttribute("id") %></h2>
-          <p><%=session.getAttribute("name") %>님 환영합니다!</p>
-		<br>
-		<a href="<%=request.getContextPath()%>/haus/haus/logout.jsp"> 로그아웃 </a>/
-		<a href="<%=request.getContextPath()%>/haus/haus/remove<%=session.getAttribute("user")%>Form.jsp"> 탈퇴 </a>
-      </div>
-    </div>
-    </div>
-  </section>
+      <div class="row"><!-- ☆☆☆☆☆ -->
+        <div class="col-md-8"> <!-- ★ -->
+        
+        <h1> 템플릿제외본문 </h1>
+             
+            
+            
+            
+            
+        </div><!-- ★ -->
+   </div><!-- ☆☆☆☆☆ -->
+   </div>
 
+
+  </section>  
 
   
 
