@@ -11,7 +11,6 @@
 			
 		return;
 	} 
-
 	
 		
 %>    
@@ -32,6 +31,8 @@
 	<%=session.getAttribute("name") %> <!-- 로그인 이름 -->
 	<br>
 	<a href="<%=request.getContextPath()%>/logout.jsp"> 로그아웃 </a>
+	<a href="<%=request.getContextPath()%>/info.jsp">상세보기 </a>
+	<a href="<%=request.getContextPath()%>/remove<%=session.getAttribute("user")%>Form.jsp"> 회원탈퇴 </a>
 	
 </body>
 </html>

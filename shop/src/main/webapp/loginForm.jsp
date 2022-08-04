@@ -55,7 +55,9 @@
 	</div>
 	
 </body>
+
 <script>
+ 
 	$('#customerBtn').click(function() {
 		if($('#customerId').val() =='') {
 			window.alert('고객 아이디를 입력하세요');
