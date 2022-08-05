@@ -107,15 +107,21 @@
         
         <h1> 회원탈퇴 </h1>
             <form action ="<%=request.getContextPath()%>/haus/haus/removeEmployee.jsp" method="post">
-			<div>
-	
-			비밀번호 입력 
-			<input type="password" class="btn btn-link" name="Pass" id="Pass">
-			</div>
-	
-	
+				  <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="fname"> PASSWORD </label>
+                    <input type="password" class="form-control" id="customerId" name="customerId">
+                </div>
+              </div>
+                   
+                   <div class="col-md-2">
+                <div class="form-group">
+              		<input type="submit" class="btn btn-primary" id="Pass" name="Pass" value="Enter">
+             	 </div>
+	           </div>   
+	</div>
 
-	<button type="submit" class="btn"> 탈퇴 </button>
 </form> 
             
             

@@ -2,17 +2,74 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import repository.EmployeeDao;
 import repository.OutIdDao;
-import vo.Customer;
-import vo.Employee;
+import vo.*;
+
 
 public class EmployeeService {
 
 	
+	public ArrayList<Employee> getEmployeeList(int rowPerPage, int currentPage) {
+		int beginRow = 0;
 	
-public boolean removeEmployee (Employee paramEmployee) {
+		
+		// int rowPerPage, int currentPage 받아서
+		// 여기서 beginRow를 가져오래
+		
+		
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		
+		beginRow = (currentPage -1 ) * rowPerPage;
+		
+		Connection conn = null;
+		
+		return list;
+		
+	}
+	
+	
+	public void signInEmployee(Employee paramEmployee )  {
+		Connection conn = null;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false); // 자동커밋 방지
+			
+			EmployeeDao employeeDao = new EmployeeDao();
+			
+			try {
+				employeeDao.insertEmployee(conn, paramEmployee);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			conn.commit();
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+	public boolean removeEmployee (Employee paramEmployee) {
 		
 		Connection conn = null;
 		

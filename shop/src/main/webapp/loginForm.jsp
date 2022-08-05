@@ -54,6 +54,12 @@
 		
 	</div>
 	
+	
+	<div>
+		<a href="<%=request.getContextPath()%>/addCustomer.jsp"> 일반회원가입</a>
+		<a href="<%=request.getContextPath()%>/addEmployee.jsp"> 스텝회원가입 </a>
+	</div>
+	
 </body>
 
 <script>

@@ -3,7 +3,7 @@
     
     
      
-<%@page import="vo.Customer"%>    
+<%@ page import="vo.Customer"%>    
 <%@ page import = "service.*" %>
 
     

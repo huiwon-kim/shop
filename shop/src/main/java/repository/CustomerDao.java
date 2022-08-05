@@ -11,8 +11,55 @@ import vo.Customer;
 //여기는 어제와 같은 dao같아 그 sql문만 처리하는
 public class CustomerDao { 
 
+	
+	 // 회원가입	
+	public int insertCustomer(Connection conn, Customer paramCustomer) throws SQLException {
+		int row = 0;
+		
+		/*
+		 INSERT INTO customer (
+		 customer_id customerId,
+		 customer_pass customerPass,
+		 customer_name customerName,
+		 customer_address customerAddress,
+		 customer_telephone customerTelephone,
+		 update_date updateDate,
+		 create_date createDate) VALUES (
+		 ?, ?, ?, ?, ?, NOW(), NOW());
+		 */
+		
+		String sql = " INSERT INTO customer (\r\n"
+				+ "		 customer_id,"
+				+ "		 customer_pass,"
+				+ "		 customer_name,"
+				+ "		 customer_address,"
+				+ "		 customer_telephone,"
+				+ "		 update_date,"
+				+ "		 create_date) VALUES (\r\n"
+				+ "		 ?, PASSWORD(?), ?, ?, ?, NOW(), NOW())";
+		
+		PreparedStatement stmt = null;
+	
+		
+		
+		try {
+			 stmt = conn.prepareStatement(sql);
+			 stmt.setString(1, paramCustomer.getCustomerId());
+			 stmt.setString(2, paramCustomer.getCustomerPass());
+			 stmt.setString(3, paramCustomer.getCustomerName());
+			 stmt.setString(4, paramCustomer.getCustomerAddress());
+			 stmt.setString(5, paramCustomer.getCustomerTelephone());
+			
+			 row = stmt.executeUpdate(); // 성공하면 1 / 0이
+		} finally {		
+			stmt.close();
+			
+		}
+		return row;
+	}
+	
 			 
-	 //탈퇴
+	 // 탈퇴
 	 // CustomerService.removeCustomer(Customer paramCustomer)가 호출
 	 public int deleteCustomer(Connection conn, Customer paramCustomer) throws SQLException {
 		 //						└★★★
@@ -95,9 +142,7 @@ public class CustomerDao {
 					loginCustomer.setCustomerId(rs.getString("customerId"));
 					loginCustomer.setCustomerPass(rs.getString("customerPass"));
 					loginCustomer.setCustomerName(rs.getString("customerName"));
-				
-				
-				
+								
 				}
 			} finally {
 				stmt.close();

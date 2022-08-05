@@ -27,10 +27,6 @@
         	
         
         	
-        	
-        
-         
-        	
         	// EmployeeService 객체 만들기
         	EmployeeService employeeService = new EmployeeService();
         	
@@ -43,7 +39,7 @@
         		session.setAttribute("user", "Employee"); //세션에 넣는거 
         		session.setAttribute("id", login.getEmployeeId());
         		session.setAttribute("name", login.getEmployeeName());
-        		response.sendRedirect(request.getContextPath()+"/index.jsp");	// 다이렉트
+        		response.sendRedirect(request.getContextPath()+"/adminindex.jsp");	// 다이렉트
         		
         	}else { // 로그인 실패
         		

@@ -9,11 +9,67 @@ import repository.OutIdDao;
 import vo.Customer;
 import vo.OutId;
 
-//여기가 이제 트랜젝션과 conn rs stmt 이런거 처리하는듯?
+//여기가 이제 트랜젝션과 conn 처리하는듯?
 public class CustomerService { // 서비스는 이름 유연하게 써도 된대
-	// loginAction.jsp 호출
-		
 	// 트랜젝션 처리를 서비스에서 한다 그래서 트라이캐치파이널리 막 씌우면서 복잡한 이유
+	
+	public void signInCustomer(Customer paramCustomer) {
+		// Customer에 담을 필요가 없다
+		// insertCustomer만 실행하면 끝인거야
+		
+		/*
+		 INSERT DELETE UPDATE 등은 그냥 ??? 에 값 넣고 쿼리 돌리면
+		 그 이후 그냥 DB에 들어가면 끝. 나에게 뭐 보여줄게 필요없어
+		 근데 SELECT는 WHERE을 이후 뒤에 기준이 되는 값들 (ID나 PASSWORD나 ~NO같은)
+		 이 일치하면 앞에 나머지 컬럼이 데이터값들을 '보여줌'
+		 
+		 그니까 값이 돌아옴. 리턴값이 있음. 그래서 그런 SELECT와 연결되는 DAO의 경우
+		 리턴값이 있음. 필요하니까
+		 
+		 근데 나머지는 끽해야 int= 1,0 / void면 됨. 그냥 sql실행시키면 끝이라니까?
+		 
+		 */
+		
+		Connection conn = null;
+		
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false); // 자동커밋 방지
+			
+			CustomerDao customerDao = new CustomerDao();			
+			try {
+				customerDao.insertCustomer(conn, paramCustomer);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			conn.commit();
+			
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				try {
+					conn.rollback();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} finally {				
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
+		
+	}
+	
+	
+		
+	// loginAction.jsp 호출
 	// 딜리트는 리턴할게 없어서 불리언 쓴거오
 	public boolean removeCustomer (Customer paramCustomer) {
 		
