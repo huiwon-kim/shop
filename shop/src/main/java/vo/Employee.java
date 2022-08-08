@@ -5,6 +5,8 @@ public class Employee {
 	private String employeePass;
 	private String employeeName;
 	private String updateDate;
+	private String createDate;
+	private String active;
 	public String getEmployeeId() {
 		return employeeId;
 	}
@@ -41,6 +43,5 @@ public class Employee {
 	public void setActive(String active) {
 		this.active = active;
 	}
-	private String createDate;
-	private String active;
+
 }

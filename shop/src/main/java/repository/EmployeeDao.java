@@ -12,10 +12,42 @@ import vo.*;
 public class EmployeeDao {
 	
 	
+	
+	public int EmployeelastPage(Connection conn) throws SQLException {
+		
+		String sql ="SELECT COUNT(*) FROM employee";
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int totalCount = 0;
+		
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				totalCount = rs.getInt("COUNT(*)");
+			}
+			
+			System.out.print(totalCount +"Employee의 dao");
+			
+		}finally {
+			
+			if(rs!=null) {rs.close();}
+			if(rs!=null) {stmt.close();}
+		}
+		
+		return totalCount;
+		
+	}
+	
+	
+	
 	// 사원 상세보기
 	// 그 테이블의 값들을 전부 가져와야함
-	public ArrayList<Employee> SelectEmployeeList(Connection conn, int currentPage, int rowPerPage) throws SQLException  {
+	public ArrayList<Employee> SelectEmployeeList(Connection conn, int rowPerPage, int beginRow) throws SQLException  {
 		ArrayList<Employee> list = new ArrayList<Employee>();
+		
 		/*
 		 SELECT 
 		 employee_id,
@@ -30,8 +62,7 @@ public class EmployeeDao {
 		
 		
 	
-		
-		
+
 		// 그냥 employee 리스트의 값 다 받아오는거니까
 		String sql =" SELECT \r\n"
 				+ "		 employee_id,\r\n"
@@ -41,19 +72,20 @@ public class EmployeeDao {
 				+ "		 create_date,\r\n"
 				+ "		 active\r\n"
 				+ "		 FROM employee\r\n"
-				+ "		 ORDER BY crate_date DESC LIMIT ?, ?";
+				+ "		 ORDER BY create_date DESC LIMIT ?, ?";
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		Employee employee = new Employee();
 		
 		try {
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, currentPage);
+			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
 			
 			while(rs.next()) {
-				Employee employee = new Employee();
+				employee = new Employee();
 				employee.setEmployeeId(rs.getString("employee_id"));
 				employee.setEmployeePass(rs.getString("employee_pass"));
 				employee.setEmployeeName(rs.getString("employee_name"));
@@ -61,11 +93,13 @@ public class EmployeeDao {
 				employee.setUpdateDate(rs.getString("update_date"));
 				employee.setActive(rs.getString("active"));
 				list.add(employee);
+				
+				System.out.println(list+ "<- Employee의 list<-");
 			}
 			
 		} finally {
-			rs.close();  			
-			stmt.close();
+			if(rs!=null) {rs.close();}  			
+			if(stmt!=null) {stmt.close();}
 		}
 		return list;
 		
@@ -161,19 +195,23 @@ public class EmployeeDao {
 		   WHERE
 		 	employee_id=? AND employee_pass=PASSWORD(?) AND active='Y'; 
 		 */ 
+		
 		 
-		 String sql = "SELECT \r\n"
-		 		+ "	   employee_id employeeId,\r\n"
-		 		+ "	   employee_pass employeePass,\r\n"
-		 		+ "	   employee_name employeeName\r\n"
-		 		+ "	   FROM employee \r\n"
+		 String sql = "SELECT"
+		 		+ "	   employee_id employeeId,"
+		 		+ "	   employee_pass employeePass,"
+		 		+ "	   employee_name employeeName,"
+		 		+ "		update_date updateDate,"
+		 		+ "		create_date createDate,"		 		
+		 		+ "		active active"
+		 		+ "	   FROM employee"
 		 		+ "	   WHERE\r\n"
 		 		+ "	 	employee_id=? AND employee_pass=PASSWORD(?) AND active='Y'";
 		
 		
 		 PreparedStatement stmt = null;
 	
-		 ResultSet rs = null;
+		 ResultSet rs= null;
 		 
 		 try {
 			 
@@ -188,7 +226,13 @@ public class EmployeeDao {
 					loginEmployee.setEmployeeId(rs.getString("employeeId"));
 					loginEmployee.setEmployeePass(rs.getString("employeePass"));
 					loginEmployee.setEmployeeName(rs.getString("employeeName"));
-
+					loginEmployee.setUpdateDate(rs.getString("updateDate"));
+					loginEmployee.setCreateDate(rs.getString("createDate"));
+					loginEmployee.setActive(rs.getString("active"));
+					
+					System.out.println(rs.getString("employeeName"));
+					System.out.println(rs.getString("createDate"));
+					System.out.println(rs.getString("active"));
 				}
 		 
 		 } finally {

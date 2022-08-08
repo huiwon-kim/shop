@@ -14,11 +14,12 @@
         	String employeeId = request.getParameter("employeeId");
         	String employeePass = request.getParameter("employeePass");
         	String employeeName = request.getParameter("employeeName");
+        	String active = request.getParameter("active");
         	
         	// 디버깅
         	System.out.println(employeeId+"<-employeeId");
-        	System.out.println(employeePass+"<-employeePass");
-        	
+        	System.out.println(employeePass+"<-employeePass");        	
+        	System.out.println(active+"<-active");
         	
         	// Employee 객체 만들기
         	Employee paramEmployee = new Employee();
@@ -39,7 +40,10 @@
         		session.setAttribute("user", "Employee"); //세션에 넣는거 
         		session.setAttribute("id", login.getEmployeeId());
         		session.setAttribute("name", login.getEmployeeName());
-        		response.sendRedirect(request.getContextPath()+"/adminindex.jsp");	// 다이렉트
+        		session.setAttribute("active", login.getActive());
+        		response.sendRedirect(request.getContextPath()+"/admin/adminindex.jsp");	// 다이렉트
+        		
+        		System.out.println(login.getActive() +"<-login");
         		
         	}else { // 로그인 실패
         		
