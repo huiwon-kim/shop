@@ -27,12 +27,13 @@ public class GoodsService {
 	// DAO안에 5개의 메서드가 있음. 이 5개 메서드들은 다같은 DAO를 가져오겠지 필요할때마다 객체를 마만들겠징
 
 	
-	// 두개의 인서트를 하나의 트랜젝션으로해야한대
+	// 두개의 인서트를 하나의 트랜젝션으로해야한대	
 	public int addGoods(Goods goods, GoodsImg goodsImg) {
+		int result=0;
+		
 		Connection conn = null;
 		
-		PreparedStatement goodsStmt = null;
-		PreparedStatement imgStat = null;		
+	
 		//쿼리가 두개래
 		
 		
@@ -42,17 +43,19 @@ public class GoodsService {
 			goodsDao = new GoodsDao();
 			goodsImgDao = new GoodsImgDao();
 			
+			//	
 			int goodsNo = goodsDao.insertGoods(conn, goods); // goodsNo가 없어도 오토인크리먼트로 자동생성되어 DB에 입력
 			
 			if(goodsNo !=0) { // 0이아니면 키값 받아왓다는 소리
-				goodsImg.setGoodsNo(goodsNo); // vo만들어야 오류 안난다는데
+				result = goodsImg.setGoodsNo(goodsNo); // vo만들어야 오류 안난다는데
 				if(goodsImgDao.insertGoodsImg(conn, goodsImg) ==0) { // 입력실패
 					throw new Exception(); // 이미지 입력실패시 강제로 롤백(catch절 이동)
 				}
-				}
+			}
 			
 			conn.commit(); // 예외 업승ㄹ 때만 컵밋
 		} catch(Exception e) {
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
@@ -66,7 +69,11 @@ public class GoodsService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}		
+		}	
+			if(result !=0) {
+				System.out.println("입력 성공");
+			} else {System.out.println("입력 실패");}
+			return result;
 	}
 	
 	

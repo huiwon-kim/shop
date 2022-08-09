@@ -10,8 +10,8 @@ public class GoodsImg {
 	public int getGoodsNo() {
 		return goodsNo;
 	}
-	public void setGoodsNo(int goodsNo) {
-		this.goodsNo = goodsNo;
+	public int setGoodsNo(int goodsNo) {
+		return this.goodsNo = goodsNo;
 	}
 	public String getFileName() {
 		return fileName;

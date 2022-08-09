@@ -15,41 +15,51 @@ public class GoodsDao {
 		// 반환값 ; key값  >>> 동시입력이란게 너무 어렵고 복잡함 >>> 그 api쓸거래
 	   public int insertGoods(Connection conn, Goods goods) throws SQLException {
 		  int keyId=0;
-		   
+		  int row=0; 
 		   /*
-		    INSERT INTO
+		    INSERT INTO goods
+		    (goods_no, goods_name, goods_price, update_date, create_date, sold_out)
+		    VALUES (?, ?, ?, ?, NOW(),?)
 		   */
-		   
-		   // 																		┌ 1을 리턴함 
-		   PreparedStatement stmt = conn.prepareStatement("INSERT...." , Statement.RETURN_GENERATED_KEYS);
+		  
+		  
+		  System.out.println(keyId+"<-26행 GoodsDao의 keyId");
+		  PreparedStatement stmt = null;
+		  ResultSet rs = null;
+		  //											┌ 1을 리턴함 
+		  stmt = conn.prepareStatement(" INSERT INTO goods   (goods_name , goods_price , update_date ,create_date )  VALUES ( ?, ? , NOW(), NOW() );" , Statement.RETURN_GENERATED_KEYS);   
 		   // 1) insert		┌rs.get(1)로 호출가능
 		   // 2) select last_ai_key from... // 마지막으로 만들어진 친구의 라스트키값
 		   
-		   stmt.executeUpdate(); // 원래는 insert 성공시 row의 수가 리턴 >>> 우리는 옵션붙일거야(Statement.RETURN_GENERATED_KEYS)라는)
-		   // stmt.getGeneratedKeys(); // 이러면 stmt가 두번 실행되는거 방금 자동으로 만들어진 key값을 SELECT하여 imgkey값으로 인서트래
-		   ResultSet rs = stmt.getGeneratedKeys(); // 
-		   
-		   if(rs.next()) {
-			   keyId =  rs.getInt(1);
-		   }
-		   
-		   if(stmt!=null) {
-			   stmt.close();
-		   }
-		   
-		   if(rs!=null) {
-			   stmt.close();
-		   }
-		   return keyId;
+		  try {
+			  stmt.setString(1, goods.getGoodsName());
+			  stmt.setInt(2, goods.getGoodsPrice());
+			 
+			  row = stmt.executeUpdate(); // 원래는 insert 성공시 row의 수가 리턴 >>> 우리는 옵션붙일거야(Statement.RETURN_GENERATED_KEYS)라는)
+			   // stmt.getGeneratedKeys(); // 이러면 stmt가 두번 실행되는거 방금 자동으로 만들어진 key값을 SELECT하여 imgkey값으로 인서트래
+			   
+			  if(row != 0 ) {
+			   rs = stmt.getGeneratedKeys(); // 
+			   System.out.println(rs+"<-GoodsDao의 rs");
+			   
+				   if(rs.next()) {
+					   keyId =  rs.getInt(1); // INSERT goods_no값이 들어가겠징 
+					 
+			   		}		   
+		  		}
+		  } finally { 
+			   if(rs != null) { rs.close();  }
+			   if(stmt != null) { stmt.close(); }
+		 
+	  		}
+		  	System.out.println(keyId+"<-GoodsDao의 keyId");
+		  	return keyId; // 굿즈넘버로 리턴
 	   }
-	
-	
 	
 	
 	// 조인을 한다면 어디서 봐? 부모(메인이 되는, 왼쪽에 오는) 쪽에
 	//	
-
-	//	┌굿즈 넘버 받아야하니깡
+	//																	┌굿즈 넘버 받아야하니깡
 	   public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws SQLException {
 		// 자바에는 익명객체가 없지만 가장 비슷한 타이빙 이 map(엄밀히 말하자면 해시맵) 타입이다
 		// 키.값 / 키.값 / 키.값 형태
