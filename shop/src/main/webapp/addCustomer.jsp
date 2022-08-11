@@ -5,15 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 	<!--  id ck Form -->
 	<h1> 고객 회원가입 </h1>
-	<form action="<%=request.getContextPath()%>/idCheckAction.jsp" method="post">
+	<form>
 		<div>
 			ID 체크
 			<input type="text" name="ckId">
-			<button type="submit"> 아이디중복검사 </button>	<!-- 버튼누르면 액션을 idcheck 액션호출하고 -->
+			<button type="button" id="idckBtn"> 아이디중복검사 </button>	<!-- 버튼누르면 액션을 idcheck 액션호출하고 -->
 		</div>
 	</form>
 	
@@ -59,4 +60,29 @@
 		<button type="submit"> 회원가입 </button>
 	</form>
 </body>
+
+<script>
+$('#idckBtn').click(function() {
+	if($('#ckId').val().length < 4) {
+		alert('id는 4자이상이어야 합니다!');
+	} else {
+		// 비동기 호출	★ >> 컨트롤러 만들어야지
+		$.ajax({
+			url : '/shop/idckController',// 'ajax-test/idckConetroller?idck=xxx이래도 되지만
+			//													└아이디체크의 밸류값
+			type : 'post',
+			data : {idck : $('#ckId').val()},
+			success : function(json) {
+				// alert(json); // >>사용할 수 있(y) 없(n) 두가지 값 
+				if(json == 'y') {
+					$('#customerId').val($('#ckId').val());
+				} else {
+					alert('이미 사용중인 아이디 입니다.');
+					$('#customerId').val('');
+				}
+			}
+		});
+	}
+});
+</script>
 </html>

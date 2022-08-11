@@ -87,6 +87,7 @@
 		</tr>
 	</thead>
 	
+	
 	<tbody>
 	
 	<%
@@ -100,11 +101,32 @@
 		<td><%=e.getUpdateDate() %></td>
 		<td><%=e.getCreateDate() %></td>
 		<td><%=e.getActive() %></td>
-	</tr>
-	<%
+		
+		<td>
+		<form action ="<%=request.getContextPath()%>/admin/adminListEditAction.jsp" method="post">
+		<input type="hidden" name="employeeId" value="<%=e.getEmployeeId() %>">
+			<select name="active">
+				   <%
+				      if(e.getActive().equals("N")) {
+				   %>
+				         <option>Y</option>
+				         <option selected="selected">N</option>
+				   <%
+				      } else {
+				   %>
+				         <option selected="selected">Y</option>
+				         <option>N</option>
+				   <%
+				      }
+				   %>
+			</select>
+			<button type="submit"> 수정하기</button>
+			</form>
+		</td>
+		<%
 		}
 	%>
-	
+	</tr>
 	</tbody>
 	</table>
 	

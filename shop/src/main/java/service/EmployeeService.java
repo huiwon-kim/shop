@@ -103,6 +103,54 @@ public class EmployeeService {
 	}
 	
 	
+	
+	// active수정
+	public int modifyEmployeeActive(Employee employeeActive) {
+		
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = new DBUtil().getConnection(); // db연동
+			conn.setAutoCommit(false); // 자동커밋방지
+			
+			
+			EmployeeDao employeeDao = new EmployeeDao();
+			result = employeeDao.updateEmployeeActive(conn, employeeActive);
+			
+			
+			if(result==0) {
+				System.out.println("result==0");
+				throw new Exception();
+				
+			}
+			conn.commit();
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		return result;
+				
+	}
+	
+	
 	public void signInEmployee(Employee paramEmployee )  {
 		Connection conn = null;
 		

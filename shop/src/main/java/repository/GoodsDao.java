@@ -11,6 +11,88 @@ import java.util.*;
 
 public class GoodsDao {
 	
+	   // 고객 상품리스트 페이지에서 사용 >>> 쿠팡같은 상품 상세보기
+	   public List<Map<String, Object>> selectcustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow) throws SQLException {
+		   List<Map<String, Object>> list= new ArrayList<Map<String,Object>>();
+
+		   
+		   /*
+		    고객의 판매량수 많은 것 부터 >> 판매량수니까 원래는 COUNT(*) 인데 
+		    손님이 1주문량에 물건 n개일수잇으니까 SUM!
+		    		
+		    SELECT g.goods_no goodsNo,
+		    g.goods_name goodsName,
+		    g.goods_price goodsPrice,
+		    gi.filename fileName		  
+		    FROM
+		    goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum
+							    FROM orders
+							    GROUP BY goods_no) t 
+							    ON g.goods_no = t.goods_no
+							    	INNER JOIN goods_img gi
+							    	ON g.goods_no = gi.goods_no
+			ORDER BY IFNULL(t.sumNum, 0) DESC
+		 
+		  
+		    한번도 안팔린 상품 나왔으면 족헷으니까>>> 왼쪽 >>> LEFT JOIN
+		    그걸 ORDER BY해봤자 0개 / 오른쪽은 존재 안한다면 null로 나온대 >>> 주문량 0..
+		    
+		    실무에선 테이블 조인이 엄청 많아서 / 그 조인과의 집계결과를 또 조인하기도 하고 UNION도 있고 등등 300~400줄 온대
+		    */
+		   
+		   /*
+		   품절이어도 품절로 뜸
+		   SELECT
+		   g.goods_no goodsNo,
+		   g.goods_name goodsName,
+		   g.goods_price goodsPrice,
+		   g.sold_out soldOut
+		   FROM goods g 
+		   INNER JOIN goods_img gi ON g.goods_no = gi.goods_no
+		   ORDER BY crate_date LIMIT ?,?;		  		   
+		   */
+		   
+		   String sql = "SELECT g.goods_no goodsNo,\r\n"
+		   		+ "		    g.goods_name goodsName,\r\n"
+		   		+ "		    g.goods_price goodsPrice,\r\n"
+		   		+ "		    gi.filename fileName		  \r\n"
+		   		+ "		    FROM\r\n"
+		   		+ "		    goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum\r\n"
+		   		+ "							    FROM orders\r\n"
+		   		+ "							    GROUP BY goods_no) t \r\n"
+		   		+ "							    ON g.goods_no = t.goods_no\r\n"
+		   		+ "							    	INNER JOIN goods_img gi\r\n"
+		   		+ "							    	ON g.goods_no = gi.goods_no\r\n"
+		   		+ "			ORDER BY IFNULL(t.sumNum, 0) DESC";
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet rs =null;		   
+		   
+		   
+		   try {
+		   stmt = conn.prepareStatement(sql);
+		   rs = stmt.executeQuery();
+		   
+		   while(rs.next()) {
+			   Map<String, Object> map = new HashMap<String, Object>();
+			   
+			  map.put("goodsNo", rs.getInt("g.goods_no"));
+			  map.put("goodsName", rs.getString("g.goods_name"));
+			  map.put("goodsPrice", rs.getString("g.goods_price"));
+			  map.put("fileName", rs.getString("gi.filename"));
+			  
+			  list.add(map);
+			  System.out.println(list +"<-list에map이 추가된");
+		   		}
+		   } finally {
+			   if(rs != null) {	rs.close();	}
+			   if(stmt != null) { stmt.close(); }
+		   }
+		   return list;
+	   }
+	
+   
+	   
 	
 		// 반환값 ; key값  >>> 동시입력이란게 너무 어렵고 복잡함 >>> 그 api쓸거래
 	   public int insertGoods(Connection conn, Goods goods) throws SQLException {

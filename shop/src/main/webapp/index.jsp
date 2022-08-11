@@ -10,7 +10,7 @@
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 			
 		return;
-	} 
+	} else 
 	
 		
 %>    
@@ -35,11 +35,19 @@
 	<a href="<%=request.getContextPath()%>/remove<%=session.getAttribute("user")%>Form.jsp"> 회원탈퇴 </a>
 	
 	
+	<%
+	System.out.println(session.getAttribute("id"));
+	%>
+	
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/customer/customerOrderList.jsp"> 주문관리 </a></li>
+		<li><a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp"> 상품보기 </a></li>
 	
 	</ul>
 	
+	<%
+	System.out.println(session.getAttribute("id"));
+	%>
 	
 </body>
 </html>

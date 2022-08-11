@@ -34,11 +34,47 @@ public class EmployeeDao {
 		}finally {
 			
 			if(rs!=null) {rs.close();}
-			if(rs!=null) {stmt.close();}
+			if(stmt!=null) {stmt.close();}
 		}
 		
 		return totalCount;
 		
+	}
+	
+	
+	
+	
+	// 사원 상세보기 - active 수정용
+	public int updateEmployeeActive(Connection conn, Employee paramEmployee) throws Exception {
+		
+		
+		/*
+		 UPDATE employee SET active=? WHERE employee_id=?
+		  */
+		
+		String sql = "UPDATE employee SET active=? WHERE employee_id=?";
+		int row = 0;
+		PreparedStatement stmt =null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, paramEmployee.getActive());
+			stmt.setString(2, paramEmployee.getEmployeeId());
+			
+			row = stmt.executeUpdate();
+			System.out.print(row +"<-row");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} finally {
+			if(stmt!=null) { stmt.close();}
+			
+		}
+		
+		
+	
+		return row;
 	}
 	
 	

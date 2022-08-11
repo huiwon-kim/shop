@@ -1,14 +1,60 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import repository.CustomerDao;
 import repository.SignDao;
 
 public class SignService {
 	private SignDao signDao; // 캡슐화
+	
+	
+	
+	
+
+		// 회원가입시 id 중복체크용 ajax이용
+	public String getIdCheck(String ckId) {
+		//null이 넘어오면 사용가능한 아이디. 아니면 사요불가능
+		Connection conn = null;
+		String id = null;
 		
+		try {
+	
+			conn = new DBUtil().getConnection();
+			SignDao signDao = new SignDao();
+			id = signDao.idCheck(conn, ckId);
+			
+		} catch(Exception e) {
+			e.printStackTrace(); // 보고도 할거양
+			if(conn != null) {
+				try {
+					conn.rollback(); // 이상하면 롤백할거양
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace(); // 보고도 할거양
+				}
+			}
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return id;
+	}
+	
+		
+	
+	
+/*	
 	// return
 	// true : 사용 가능한 아이디
 	// false : 사용 불가능한 아이디
@@ -59,7 +105,7 @@ public class SignService {
 			return result;
 		}
 		
-		// conn... 클로즈
+		// conn... 클로즈*/
 		
 	}
 

@@ -2,6 +2,7 @@ package service;
 
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +18,9 @@ import vo.OutId;
 public class CustomerService { // 서비스는 이름 유연하게 써도 된대
 	// 트랜젝션 처리를 서비스에서 한다 그래서 트라이캐치파이널리 막 씌우면서 복잡한 이유
 	
+	private CustomerDao customerDao;
 	
-
+	
 	
 	
 	public void signInCustomer(Customer paramCustomer) {
@@ -129,6 +131,8 @@ public class CustomerService { // 서비스는 이름 유연하게 써도 된대
 			}
 			return true;
 		}
+	
+	
 	
 	
 		// 얘는 세션에 넣어야하니까 리턴값이 customer이여야지

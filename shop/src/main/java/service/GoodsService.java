@@ -27,6 +27,59 @@ public class GoodsService {
 	// DAO안에 5개의 메서드가 있음. 이 5개 메서드들은 다같은 DAO를 가져오겠지 필요할때마다 객체를 마만들겠징
 
 	
+	// 고객 상품리스트페이지를 호출하는 서비스의 페이징
+	
+	// 고객 상품리스트페이지를 호출하는 서비스
+	public List<Map<String, Object>> getcustomerGoodsListByPage(int rowPerPage, int currentPage) {
+		
+		List<Map<String, Object>> list = null;
+		Connection conn = null;
+		// GoodsDao 호출
+			
+		int beginRow = ( currentPage -1 ) * rowPerPage;
+		
+		
+		try {
+			conn = new DBUtil().getConnection();
+			GoodsDao goodsDao = new GoodsDao();
+			
+			list = goodsDao.selectcustomerGoodsListByPage(conn, rowPerPage, beginRow);
+			
+			System.out.println(list +"<-GoodsService의 list");
+			
+			
+			if(list ==null) {
+				throw new Exception();
+			}
+				conn.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return list;		
+		
+	}
+	
+	
+	
+	
+	
+	
 	// 두개의 인서트를 하나의 트랜젝션으로해야한대	
 	public int addGoods(Goods goods, GoodsImg goodsImg) {
 		int result=0;

@@ -85,7 +85,9 @@
 			<tr>
 				<td><%=g.getGoodsNo() %></td>
 				<td><a href="<%=request.getContextPath()%>/admin/adminGoodsImgOne.jsp?goodsNo=<%=g.getGoodsNo() %>">
-				<%=g.getGoodsName() %></a></td>
+				<%=g.getGoodsName() %></a>
+					
+				</td>
 				<td><%=g.getGoodsPrice() %></td>
 				<td><%=g.getUpdateDate() %></td>
 				<td><%=g.getCreateDate() %></td>
