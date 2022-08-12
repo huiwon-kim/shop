@@ -47,6 +47,10 @@
 	</tbody>	
 </table>
 
+<form action="<%=request.getContextPath()%>/admin/adminGoodsUpdateForm.jsp" method="post"> 
+	<button type="submit"> 수정하기</button>
+
+</form>
 	
 </body>
 </html>

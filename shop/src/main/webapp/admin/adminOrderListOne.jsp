@@ -59,7 +59,7 @@
 	</ul>
 </div>
 
-<h1> 주문 상세 보기</h1>
+<h1> 주문 상세 보기</h1> <!--  <li><a href="<!%=request.getContextPath()!%>/admin/adminOrderList.jsp" > 주문관리  -->
 
 	<table border="1">
 	
