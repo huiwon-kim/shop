@@ -24,6 +24,8 @@ public class OrdersDao {
 	public Map<String, Object> selectOrdersOne(Connection conn, int ordersNo) throws SQLException {
 		Map<String, Object> m = null; // >>이렇게 만드는게 낫대
 		
+		
+		// 커스터머가 없는 쪽을 아웃터조인하라고?
 		/*
 		SELECT
 		o.order_no,
@@ -290,7 +292,7 @@ public class OrdersDao {
 				+ "		WHERE o.customer_id=?\r\n"
 				+ "		ORDER BY o.create_date DESC\r\n"
 				+ "		LIMIT ?,?";
-		
+		// 아우터조인으로 바꿀 것
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Map<String, Object> m = null;

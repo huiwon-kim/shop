@@ -2,23 +2,18 @@ package repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import vo.GoodsImg;
 
 
+
 public class GoodsImgDao {
 	
 	public GoodsImg selectGoodsImg(Connection conn, int goodsNo) {
-		/*
-		 SELECT
-		 goods_no goodsNo,
-		 filename fileName,
-		 orgin_filename originFilename,
-		 content_type contentType,
-		 create_date createDate
-		 */
+
 		
 		String sql ="SELECT\r\n"
 				+ "		 goods_no goodsNo,\r\n"
@@ -40,7 +35,6 @@ public class GoodsImgDao {
 		
 		
 	}
-	
 	
 	public int insertGoodsImg(Connection conn, GoodsImg goodsImg) throws SQLException {
 		int row=0;
