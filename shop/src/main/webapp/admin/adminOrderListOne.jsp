@@ -24,6 +24,16 @@
  
 	
 	// 변수 받아오기
+	int orderNo = Integer.parseInt(request.getParameter("orderNo")); 
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo")); 
+	
+	
+	System.out.println(orderNo+"<-orderNo");
+	System.out.println(goodsNo+"<-goodsNo");	
+	
+	OrdersDao ordersDao = new OrdersDao();
+	OrdersService ordersService = new OrdersService();
+	Map<String, Object> map = ordersService.getOrdersOne(goodsNo);
 	
 	
  %>  
@@ -63,12 +73,100 @@
 
 
 
-
+<form action="<%=request.getContextPath()%>/admin/adminOrderOneUpAction.jsp" method="post">
 	<table border="1">
+		<thead>
+			<tr>
+				<td> orderNo </td>
+				<td> customerId </td>
+				<td> orderQuantity </td>
+				<td> orderPrice </td>
+				<td> orderAddr </td>
+				<td> orderState </td>
+				<td> goodsName </td>
+				<td> goodsPrice </td>
+				<td> customerName </td>
+				<td> customerTelephone </td>
+			</tr>
+		</thead>
 	
-	
-	
+		<tbody>
+			<tr>
+				<td> <%=map.get("orderNo") %> 
+					<input type="hidden" value="<%=map.get("goodsNo")%>" name="goodsNo" id="goodsNo">
+					<input type="hidden" value="<%=map.get("orderNo") %>" name="orderNo" id="orderNo">
+				</td> <!--  저장해준거 가져와야 하니까 -->
+				<td> <%=map.get("customerId") %> </td>
+				<td> <%=map.get("orderQuantity") %> </td>
+				<td> <%=map.get("orderPrice") %> </td>
+				<td> <%=map.get("orderAddr") %> </td>
+				<td> <%=map.get("orderstate") %>
+					<br>
+					<select name="orderstate">
+						<%
+							if(map.get("orderstate").equals("입금전")) {
+						%>
+							 <option value="입금전" selected="selected" > 입금전 </option>
+					         <option value="상품준비중"> 상품준비중 </option>
+							 <option value="배송준비중"> 배송준비중 </option>
+							 <option value="배송중"> 배송중 </option>
+							 <option value="배송완료"> 배송완료 </option>
+							 
+						<%
+							} else if (map.get("orderstate").equals("상품준비중")) {
+						%>
+						
+							 <option value="입금전" > 입금전 </option>
+					         <option value="상품준비중" selected="selected"> 상품준비중 </option>
+							 <option value="배송준비중"> 배송준비중 </option>
+							 <option value="배송중"> 배송중 </option>
+							 <option value="배송완료"> 배송완료 </option>
+							 
+						<%
+							} else if (map.get("orderstate").equals("배송준비중")) {				
+						%>
+						
+							 <option value="입금전" > 입금전 </option>
+					         <option value="상품준비중" > 상품준비중 </option>
+							 <option value="배송준비중" selected="selected"> 배송준비중 </option>
+							 <option value="배송중"> 배송중 </option>
+							 <option value="배송완료"> 배송완료 </option>
+							 
+						<%
+							} else if (map.get("orderstate").equals("배송중")) {				
+						%>		
+								
+				 			 <option value="입금전" > 입금전 </option>
+					         <option value="상품준비중"> 상품준비중 </option>
+							 <option value="배송준비중" > 배송준비중 </option>
+							 <option value="배송중" selected="selected"> 배송중 </option>
+							 <option value="배송완료"> 배송완료 </option>
+						<%
+							} else if (map.get("orderstate").equals("배송완료")) {			
+						%>	
+							 <option value="입금전" selected="selected" > 입금전 </option>
+					         <option value="상품준비중"> 상품준비중 </option>
+							 <option value="배송준비중"> 배송준비중 </option>
+							 <option value="배송중"> 배송중 </option>
+							 <option value="배송완료" selected="selected"> 배송완료 </option>
+						
+						<%
+							}
+						%>
+				
+					</select>
+				
+				 </td>
+				<td> <%=map.get("goodsName") %> </td>
+				<td> <%=map.get("goodsPrice") %> </td>
+				<td> <%=map.get("customerName") %> </td>
+				<td> <%=map.get("customerTelephone") %> </td>
+			</tr>
+		</tbody>
+					
 	</table>
+			<button type="submit" > 수정완료 </button>
+	</form>
 
 </body>
 </html>

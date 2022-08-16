@@ -15,12 +15,35 @@ public class OrdersDao {
 	
 	
 	// 관리자의 고객주문확인의 상세보기 수정용 (배송상태)
+	public int updateOrdersOne(Connection conn, Orders orders) throws SQLException {
+		
+		/*
+		UPDATE orders SET order_state=? WHERE order_no=?
+		*/
+		String sql = "UPDATE orders SET order_state=? WHERE order_no=?";
+		int row = 0;
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orders.getOrderState());
+			stmt.setInt(2, orders.getOrderNo());
+			
+			row = stmt.executeUpdate();
+			System.out.print(row +"<-row");
+					
+		} finally {
+			if(stmt!=null) { stmt.close();}
+		}
+		
+		return row;
+				
+	}
 	
-	// 관리자의 고객주문확인의 상세보기용
 	
 	
 	
-	// 5-2) 주문 상세 보기
+	// 5-2) 주문 상세 보기 (관리자의 고객주문확인의 상세보기용)
 	public Map<String, Object> selectOrdersOne(Connection conn, int ordersNo) throws SQLException {
 		Map<String, Object> m = null; // >>이렇게 만드는게 낫대
 		
@@ -77,7 +100,7 @@ public class OrdersDao {
 				+ "		ON o.goods_no = g.goods_no \r\n"
 				+ "									INNER JOIN customer c\r\n"
 				+ "									ON o.customer_id = c.customer_id \r\n"
-				+ "		WHERE o.order_no =1 ?	";
+				+ "		WHERE o.order_no = ?";
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

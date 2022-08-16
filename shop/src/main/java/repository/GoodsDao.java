@@ -93,6 +93,59 @@ public class GoodsDao {
 	
    
 	   
+	   // 상품수정
+	   
+	   public int updateGoods(Connection conn, Goods goods) throws SQLException {
+			  int row=0; 
+		   
+		   /*
+		    UPDATE goods SET
+		     goods_name goodsName = ?,
+		     goods_price goodsPrice = ?,
+		     update_date updateDate = NOW(),
+		     sold_out soldOut = ?
+		     WHERE goodsNo =?
+		    */
+		   
+			/*
+			 * String sql = "		    UPDATE goods SET\r\n" +
+			 * "		     goods_name goodsName = ?,\r\n" +
+			 * "		     goods_price goodsPrice = ?,\r\n" +
+			 * "		     update_date updateDate = NOW(),\r\n" +
+			 * "		     sold_out soldOut = ?\r\n" + "		     WHERE goodsNo =?";
+			 */
+		   
+		   String sql = "		    UPDATE goods SET "
+			   		+ "		     goods_name = ?, "
+			   		+ "		     goods_price = ?, "
+			   		+ "		     update_date = NOW(), "
+			   		+ "		     sold_out = ? "
+			   		+ "		     WHERE goods_no =?";
+		   
+		   PreparedStatement stmt = null;
+			 ResultSet rs = null;
+		   
+			  try {
+				  stmt = conn.prepareStatement(sql);
+				  stmt.setString(1, goods.getGoodsName());
+				  stmt.setInt(2, goods.getGoodsPrice());
+				  stmt.setString(3, goods.getSoldOut());
+				  stmt.setInt(4, goods.getGoodsNo());
+				 
+				  row = stmt.executeUpdate(); // 원래는 insert 성공시 row의 수가 리턴 >>> 우리는 옵션붙일거야(Statement.RETURN_GENERATED_KEYS)라는)
+				   // stmt.getGeneratedKeys(); // 이러면 stmt가 두번 실행되는거 방금 자동으로 만들어진 key값을 SELECT하여 imgkey값으로 인서트래
+				   
+				 
+			  } finally { 
+				   if(rs != null) { rs.close();  }
+				   if(stmt != null) { stmt.close(); }
+			 
+		  		}
+			  	//System.out.println(keyId+"<-GoodsDao의 keyId");
+			  	return row; // 굿즈넘버로 리턴
+	   }
+	   
+	   
 	
 		// 반환값 ; key값  >>> 동시입력이란게 너무 어렵고 복잡함 >>> 그 api쓸거래
 	   public int insertGoods(Connection conn, Goods goods) throws SQLException {
@@ -100,7 +153,12 @@ public class GoodsDao {
 		  int row=0; 
 		   /*
 		    INSERT INTO goods
-		    (goods_no, goods_name, goods_price, update_date, create_date, sold_out)
+		    (goods_no, 
+		    goods_name, 
+		    goods_price, 
+		    update_date, 
+		    create_date, 
+		    sold_out)
 		    VALUES (?, ?, ?, ?, NOW(),?)
 		   */
 		  

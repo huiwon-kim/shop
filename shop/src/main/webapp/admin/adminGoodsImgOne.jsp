@@ -6,10 +6,15 @@
 <%@ page import = "service.*" %>
 <%@ page import = "repository.*" %>
     
+    
 <%
+
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo")); 
+
+	
 	GoodsService goodsService = new GoodsService();
 	Map<String, Object> map = goodsService.getGoodsAndImgOne(goodsNo);
+
 %>    
     
     
@@ -22,7 +27,10 @@
 <body>
 
 <h1> 제품 상세보기 </h1>
+
+<form action="<%=request.getContextPath()%>/admin/adminGoodsUpdateForm.jsp?goodsNo=<%=map.get("goodsNo")%>" method="post"> 
 <table border="1">
+
 	<thead>
 	<tr> 
 		<td>goodsNo</td>
@@ -48,7 +56,6 @@
 </table>
 
 
-<form action="<%=request.getContextPath()%>/admin/adminGoodsUpdateForm.jsp" method="post"> 
 	<button type="submit"> 수정하기</button>
 
 </form>

@@ -77,7 +77,52 @@ public class GoodsService {
 	
 	
 	
-	
+	// 상품 수정
+	public int updateGoods(Goods goods, GoodsImg goodsImg) {
+		int result =0;
+		
+		Connection conn = null;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false);
+			
+			goodsDao = new GoodsDao();
+			goodsImgDao = new GoodsImgDao();
+			
+
+			
+			
+			if(goodsDao.updateGoods(conn, goods) !=0) { // 0이아니면 키값 받아왓다는 소리
+				//goodsImg.setGoodsNo(goodsNo); // >>> 원래는 굿즈NO를 따로 셋팅을 해야하는데 updateAction에서 셋팅해서 이게 필요가 없대
+				result = goodsImgDao.updateGoodsImg(conn, goodsImg);
+				if(result == 0) { // 입력실패
+					throw new Exception(); // 이미지 입력실패시 강제로 롤백(catch절 이동)
+				}
+			}
+			
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {	
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+			if(result !=0) {
+				System.out.println("수정 성공");
+			} else {System.out.println("수정 실패");}
+			return result;
+	}
 	
 	
 	// 두개의 인서트를 하나의 트랜젝션으로해야한대	

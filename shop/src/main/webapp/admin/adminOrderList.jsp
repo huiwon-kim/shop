@@ -43,6 +43,10 @@
 
 	lastPage = ordersService.getOrderListByPageLastPage(rowPerPage);
 	System.out.print(lastPage);	
+	
+	
+	
+	
 %>
 
     
@@ -100,7 +104,15 @@
 	%>
 		<tr>
 			<td><%=m.get("customerId") %></td>
-			<td><a href="<%=request.getContextPath()%>/admin/adminOrderListOne.jsp"> <%=m.get("goodsName") %></a></td>
+			<td>
+				<a href="<%=request.getContextPath()%>/admin/adminOrderListOne.jsp?orderNo=<%=m.get("orderNo")%>&goodsNo=<%=m.get("goodsNo")%>">
+					<%=m.get("goodsName") %>
+					
+					<!--  앤커테그로 보낼때는 jsp?원하는값이름=<알아서설정>~~ 이런식으로넘겨줘야 한다. 앤커타입 링크에서 복수의 값을 넘길 때는 &으로 연결
+					히든타입은 폼의 경우에만 가능 ★★★-->
+				</a>
+		
+			</td>
 			<td><%=m.get("orderQuantity") %></td>
 			<td><%=m.get("orderPrice") %></td>
 			<td><%=m.get("orderAddr") %></td>
@@ -111,6 +123,7 @@
 	<%
 		}
 	%>	
+		
 		
 	</tbody>
 	</table>

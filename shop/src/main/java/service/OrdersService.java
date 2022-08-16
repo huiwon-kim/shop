@@ -9,11 +9,58 @@ import java.util.Map;
 
 import repository.GoodsDao;
 import repository.OrdersDao;
+import vo.Orders;
 
 public class OrdersService {
 
 	
-	// 관리자의 고객주문확인의 상세보기 수정용 (배송상태)
+	// 관리자의 고객주문확인의 상세보기 수정용 (배송상태수정)
+	public int modifyOrdersOne(Orders orders) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false);
+			
+			OrdersDao ordersDao = new OrdersDao();
+			result = ordersDao.updateOrdersOne(conn, orders);
+			
+			if(result==0) { // 수정이 실패하면
+				System.out.println("result==0");
+				throw new Exception();
+			}
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return result;
+		
+	}
+	
+	
+	
 	
 	
 	// 관리자의 고객주문확인의 상세보기용
@@ -52,7 +99,7 @@ public class OrdersService {
 			}
 		}
 		
-		return null;
+		return m;
 	}
 	
 	
