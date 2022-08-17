@@ -12,6 +12,40 @@ import vo.Customer;
 public class CustomerDao { 
 
 	
+	// 회원목록 상세보기
+	public Customer selectCustomermore(Connection conn, Customer paramCustomer) {
+		
+		
+		/*
+		
+		SELECT
+		customer_id customerId,
+		customer_pass customerPass,
+		customer_name customerName,
+		customer_address customerAddress,
+		customer_telephone customerTelephone,
+		update_date updateDate,
+		create_date createDate
+		FROM customer
+		
+		*/
+	
+		String sql="		SELECT\r\n"
+				+ "		customer_id customerId,\r\n"
+				+ "		customer_pass customerPass,\r\n"
+				+ "		customer_name customerName,\r\n"
+				+ "		customer_address customerAddress,\r\n"
+				+ "		customer_telephone customerTelephone,\r\n"
+				+ "		update_date updateDate,\r\n"
+				+ "		create_date createDate\r\n"
+				+ "		FROM customer";
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		
+	}
+	
+	
 	
 	 // 회원가입	
 	public int insertCustomer(Connection conn, Customer paramCustomer) throws SQLException {

@@ -25,25 +25,31 @@
 	
 	// 변수설정 및 가져오기	
 	int row = 0;
-	String orderstate = request.getParameter("orderstate");
-	String orderNo =request.getParameter("orderNo");
-	String goodsNo =request.getParameter("goodsNo");
-	// └ 혹시모르니까 굿즈노도 다 가져옴
-	
+	String orderState = request.getParameter("orderstate");
+	int orderNo =Integer.parseInt(request.getParameter("orderNo"));
+
 	
 	// 디버깅
-	System.out.println(orderstate+ "<-orderstate");
+	System.out.println(orderState+ "<-orderState");
 
 
 	// 객체 생성 및 객체에 값 집어넣기
 	Orders orders = new Orders();
 	orders.setOrderState(orderState);
 	orders.setOrderNo(orderNo);
-	orders.setGoodsNo(goodsNo);
+
 	
 	// 객체생성 및 메서드실행
-	OrdersService oredrsService = new OrdersService();
+	OrdersService ordersService = new OrdersService();
 	row = ordersService.modifyOrdersOne(orders);
+	
+	if( row ==0) {
+		System.out.println("수정 실패!");
+		response.sendRedirect(request.getContextPath()+"/admin/adminOrderList.jsp");
+	} else {
+		System.out.println("수정 성공!");
+		response.sendRedirect(request.getContextPath()+"/admin/adminOrderList.jsp");
+	}
 	
 	
 %>

@@ -64,7 +64,7 @@ public class OrdersService {
 	
 	
 	// 관리자의 고객주문확인의 상세보기용
-	public Map<String, Object> getOrdersOne(int goodsNo) {
+	public Map<String, Object> getOrdersOne(int orderNo) {
 		Map<String, Object> m = null;
 		Connection conn = null;
 			
@@ -74,7 +74,7 @@ public class OrdersService {
 			
 			OrdersDao ordersDao = new OrdersDao();
 			
-			m = ordersDao.selectOrdersOne(conn, goodsNo);
+			m = ordersDao.selectOrdersOne(conn, orderNo);
 			System.out.println(m +"<-getOrdersListByEmployee의 m");
 			
 			if(m ==null ) {

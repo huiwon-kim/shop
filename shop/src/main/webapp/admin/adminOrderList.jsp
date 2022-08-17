@@ -76,7 +76,7 @@
 		<!--  					 └삭제는 근데 장바구니, 주문이 단 한번이라도 없는 경우에만 가능 -->
 		<li><a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp" > 고객관리 </a></li><!-- 주문목록/수정 -->
 		<li><a href="<%=request.getContextPath()%>/admin/adminOrderList.jsp" > 주문관리 </a></li><!-- 고객목록/탈퇴/비밀번호수정(전달구현X) -->
-		<li><a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp" > 공지관리 </a></li><!-- CRUD -->
+		<li><a href="<%=request.getContextPath()%>/noticeList.jsp" > 공지관리 </a></li><!-- CRUD -->
 	</ul>
 </div>
 
@@ -105,10 +105,11 @@
 		<tr>
 			<td><%=m.get("customerId") %></td>
 			<td>
-				<a href="<%=request.getContextPath()%>/admin/adminOrderListOne.jsp?orderNo=<%=m.get("orderNo")%>&goodsNo=<%=m.get("goodsNo")%>">
+				<a href="<%=request.getContextPath()%>/admin/adminOrderListOne.jsp?orderNo=<%=m.get("orderNo")%>">
 					<%=m.get("goodsName") %>
 					
 					<!--  앤커테그로 보낼때는 jsp?원하는값이름=<알아서설정>~~ 이런식으로넘겨줘야 한다. 앤커타입 링크에서 복수의 값을 넘길 때는 &으로 연결
+					adminOrderListOne.jsp?orderNo=</%=m.get("orderNo")%>&goodsNo=</%=m.get("goodsNo")%> << 이런식
 					히든타입은 폼의 경우에만 가능 ★★★-->
 				</a>
 		

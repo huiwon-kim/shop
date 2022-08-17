@@ -25,15 +25,15 @@
 	
 	// 변수 받아오기
 	int orderNo = Integer.parseInt(request.getParameter("orderNo")); 
-	int goodsNo = Integer.parseInt(request.getParameter("goodsNo")); 
+
 	
 	
 	System.out.println(orderNo+"<-orderNo");
-	System.out.println(goodsNo+"<-goodsNo");	
+
 	
 	OrdersDao ordersDao = new OrdersDao();
 	OrdersService ordersService = new OrdersService();
-	Map<String, Object> map = ordersService.getOrdersOne(goodsNo);
+	Map<String, Object> map = ordersService.getOrdersOne(orderNo);
 	
 	
  %>  
@@ -65,7 +65,7 @@
 		<!--  					 └삭제는 근데 장바구니, 주문이 단 한번이라도 없는 경우에만 가능 -->
 		<li><a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp" > 고객관리 </a></li><!-- 주문목록/수정 -->
 		<li><a href="<%=request.getContextPath()%>/admin/adminOrderList.jsp" > 주문관리 </a></li><!-- 고객목록/탈퇴/비밀번호수정(전달구현X) -->
-		<li><a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp" > 공지관리 </a></li><!-- CRUD -->
+		<li><a href="<%=request.getContextPath()%>/noticeList.jsp" > 공지관리 </a></li><!-- CRUD -->
 	</ul>
 </div>
 
