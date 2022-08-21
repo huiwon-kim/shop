@@ -11,6 +11,48 @@ import vo.Notice;
 
 public class NoticeDao {
 	
+	// 공지사항 글입력용
+	public int insertNotice(Connection conn, Notice notice) throws SQLException {
+		/*
+		INSERT INTO notice
+		(employee_id, notice_pass, notice_title, notice_content,
+		update_date, create_date)
+		VALUES
+		(?, PASSWORD(?), ?, ?, NOW(), NOW()) 
+		  
+		 */
+		int row = 0;
+		
+		String sql ="		INSERT INTO notice\r\n"
+				+ "		(employee_id, notice_pass, notice_title, notice_content,\r\n"
+				+ "		update_date, create_date)\r\n"
+				+ "		VALUES\r\n"
+				+ "		(?, PASSWORD(?), ?, ?, NOW(), NOW()) ";
+	
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+	
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, notice.getEmployeeId());
+			stmt.setString(2, notice.getNoticePass());
+			stmt.setString(3, notice.getNoticeTitle());
+			stmt.setString(4, notice.getNoticeContent());
+			
+			row = stmt.executeUpdate();
+			System.out.println(row + "<-insertNotice의 row");
+		} finally {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+		}
+	
+		return row;
+	}
+	
+	
+	
+	
+	
 	
 	// 공지사항 목록보기(라스트페이지)용
 	public int lastPage(Connection conn) throws Exception {
@@ -60,7 +102,7 @@ public class NoticeDao {
 		String sql ="		SELECT\r\n"
 				+ "		notice_no, \r\n"
 				+ "		employee_id, \r\n"
-				+ "		writer, \r\n"
+				+ "		notice_writer, \r\n"
 				+ "		notice_title, \r\n"
 				+ "		notice_content, \r\n"
 				+ "		update_date, \r\n"
@@ -86,7 +128,7 @@ public class NoticeDao {
 				notice = new Notice();
 				notice.setNoticeNo(rs.getInt("notice_no"));
 				notice.setEmployeeId(rs.getString("employee_id"));
-				notice.setWriter(rs.getString("writer"));
+				notice.setWriter(rs.getString("notice_writer"));
 				notice.setNoticeTitle(rs.getString("notice_title"));
 				notice.setNoticeContent(rs.getString("notice_content"));
 				notice.setUpdateDate(rs.getString("update_date"));

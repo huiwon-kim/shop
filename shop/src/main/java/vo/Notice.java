@@ -6,6 +6,17 @@ public class Notice {
 	private String writer;
 	private String noticeTitle;
 	private String noticeContent;
+	private String noticePass;
+	
+	
+	
+
+	public String getNoticePass() {
+		return noticePass;
+	}
+	public void setNoticePass(String notiecePass) {
+		this.noticePass = notiecePass;
+	}
 	private String updateDate;
 	private String createDate;
 	

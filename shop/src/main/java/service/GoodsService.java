@@ -26,8 +26,83 @@ public class GoodsService {
 	
 	// DAO안에 5개의 메서드가 있음. 이 5개 메서드들은 다같은 DAO를 가져오겠지 필요할때마다 객체를 마만들겠징
 
-	
+	// 고객상품리스트 페이지상세보기
+	public Map<String, Object> getcustomerGoodsOne(int orderNo) {
+		
+		Map<String,Object> map = null;
+		
+		Connection conn = null;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			conn.setAutoCommit(false);
+			GoodsDao goodsDao = new GoodsDao(); 	
+			map = goodsDao.selectcustomerGoodsOne(conn, orderNo);
+			
+			System.out.print(map +"<-getcustomerGoodsOne의 map");
+			
+			conn.commit();
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+				
+		return map;
+	}
+		
+		
+		
 	// 고객 상품리스트페이지를 호출하는 서비스의 페이징
+	public int getcustomerGoodsListLastPage(int rowPerPage) {
+		Connection conn = null;
+		
+		try {
+			conn = new DBUtil().getConnection(); // 디비연동
+			conn.setAutoCommit(false); //자동커밋방지
+			
+			GoodsDao goodsDao = new GoodsDao(); 
+			
+			rowPerPage = goodsDao.lastPage(conn);
+			//디버깅 
+			System.out.print(rowPerPage +"<-rowPerPage");
+		
+			
+			conn.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+					
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return rowPerPage;	
+		
+		
+	}
+	
 	
 	// 고객 상품리스트페이지를 호출하는 서비스
 	public List<Map<String, Object>> getcustomerGoodsListByPage(int rowPerPage, int currentPage) {
@@ -221,10 +296,7 @@ public class GoodsService {
 			
 			//디버깅 
 			System.out.print(rowPerPage +"<-rowPerPage");
-			
-			if(rowPerPage ==0) {
-				throw new Exception();
-			}
+		
 			
 			conn.commit();
 		} catch (Exception e) {

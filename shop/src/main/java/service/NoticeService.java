@@ -12,6 +12,54 @@ public class NoticeService {
 	private NoticeDao noticeDao;
 
 	
+	// 공지 입력하기
+	public int getNotice (Notice notice) {
+		Connection conn = null;
+		int row = 0;
+		
+		
+		try {
+			conn = new DBUtil().getConnection(); // DB연동
+			conn.setAutoCommit(false); // 자동커밋방지
+			
+			
+			// NoticeDao 객체생성
+			NoticeDao noticeDao = new NoticeDao();
+			
+			
+			// 리턴값에 값 담기위한 메서드 호출 및 담기
+			row = noticeDao.insertNotice(conn, notice);
+			
+			// 디버깅
+			System.out.println(row +"<-getNotice의 row");
+			
+			// 그리구 커밋할거양
+			conn.commit();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				// 이상하면 롤백 ㄱ
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+		
+	}
+	
+	
 	// 공지 목록보기 페이징
 	public int getNoticeListLastPage(int rowPerPage) {
 		

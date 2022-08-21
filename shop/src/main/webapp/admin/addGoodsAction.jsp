@@ -55,8 +55,7 @@
 	
 	//변수받아오기	
 	// 확장자가 img 친구들 일때만 저장할래
-	if ( !( imgType.equals("image/gif") || imgType.equals("image/png") || imgType.equals("image/jpeg") ||
-			imgType.equals("image/jpg")) ) {
+	if ( !( imgType.equals("image/gif") || imgType.equals("image/png") || imgType.equals("image/jpeg") ))  {
 				
 		// 이미 업로드된 파일을 삭제 (이미지 파일 아닌 애들만)
 		File f= new File(dir+"\\"+imgName);

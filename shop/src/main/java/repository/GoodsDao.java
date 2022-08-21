@@ -11,9 +11,80 @@ import java.util.*;
 
 public class GoodsDao {
 	
-	   // 고객 상품리스트 페이지에서 사용 >>> 쿠팡같은 상품 상세보기
+	
+	
+		// 고객 상품 상세보기
+	   public Map<String, Object> selectcustomerGoodsOne (Connection conn, int orderNo) throws Exception {
+		   
+		   /*
+		    테이블 3개 조인해서 일단 Map의 객체에 넣자
+		    SELECT g.*, o.*, gi.filename
+		    FROM goods g INNER JOIN orders o
+		    ON g.goods_no = o.goods_no
+		    INNER JOIN goods_img gi
+		    ON g.goods_no = gi.goods_no
+		    WHERE o.order_no=?
+		     
+		    */
+		   
+		   
+		   String sql="		    SELECT g.*, o.*, gi.filename\r\n"
+		   		+ "		    FROM goods g INNER JOIN orders o\r\n"
+		   		+ "		    ON g.goods_no = o.goods_no\r\n"
+		   		+ "		    INNER JOIN goods_img gi\r\n"
+		   		+ "		    ON g.goods_no = gi.goods_no\r\n"
+		   		+ "		    WHERE o.order_no=?";
+		   
+		   
+		   PreparedStatement stmt = null;
+		   ResultSet rs = null;
+		   Map<String, Object> map = null;
+		   
+		   
+		  
+		   try {
+			   // Map의 객체 map 생성
+			   map = new HashMap<String, Object>();
+			   stmt = conn.prepareStatement(sql);
+			   stmt.setInt(1, orderNo);
+			   rs = stmt.executeQuery();
+			   
+			  
+			   while(rs.next()) {
+				    // 선택이 된다면 map에 집어넣기
+				   map.put("goodsNo", rs.getInt("g.goods_no"));
+				   map.put("goodsName", rs.getString("g.goods_name")); 
+				   map.put("goodsPrice", rs.getInt("g.goods_price")); 
+				   map.put("goodsSoldout", rs.getInt("g.sold_out")); 
+				   map.put("updateDate", rs.getInt("g.update_date")); 
+				   map.put("createDate", rs.getInt("g.create_date")); 
+				   map.put("orderNo", rs.getInt("o.order_no")); 
+				   map.put("customerId", rs.getInt("o.customer_id")); 
+				   map.put("orderQuantity", rs.getInt("o.order_quantity")); 
+				   map.put("orderPrice", rs.getInt("o.order_price")); 
+				   map.put("orderAddr", rs.getInt("o.order_addr")); 
+				   map.put("orderCreatedate", rs.getInt("o.create_date")); 
+				   map.put("orderUpdatedate", rs.getInt("o.update_date")); 
+				   map.put("filename", rs.getInt("gi.filename")); 
+				   
+				   // 디버깅
+				   System.out.println(map+"<-selectcustomerGoodsList의 map");
+			   }
+			   
+		   } finally {
+			   // 자원해제
+			   if(rs!=null) {rs.close();}
+			   if(stmt!=null) {stmt.close();}
+		   }
+		   
+		   return map;
+	   }
+		
+	
+	
+	   // 고객 상품리스트 페이지에서 사용 >>> 쿠팡같은 상품보기
 	   public List<Map<String, Object>> selectcustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow) throws SQLException {
-		   List<Map<String, Object>> list= new ArrayList<Map<String,Object>>();
+		   List<Map<String, Object>> list= null;
 
 		   
 		   /*
@@ -51,27 +122,37 @@ public class GoodsDao {
 		   INNER JOIN goods_img gi ON g.goods_no = gi.goods_no
 		   ORDER BY crate_date LIMIT ?,?;		  		   
 		   */
+		   String sort = null;
+		    
+		   String sql = "SELECT g.goods_no,\r\n"
+		   		+ "g.goods_name,\r\n"
+		   		+ "  g.goods_price,\r\n"
+		   		+ " gi.filename\r\n"
+		   		+ " FROM\r\n"
+		   		+ "goods g LEFT JOIN \r\n"
+		   		+ "(SELECT goods_no, SUM(order_quantity) sumNum\r\n"
+		   		+ "FROM orders\r\n"
+		   		+ "GROUP BY goods_no) t \r\n"
+		   		+ "ON g.goods_no = t.goods_no\r\n"
+		   		+ "INNER JOIN goods_img gi\r\n"
+		   		+ " 	ON g.goods_no = gi.goods_no\r\n"
+		   		//+ "ORDER BY "+ sort + "LIMIT ?, ?";
+		   		+ "ORDER BY g.goods_no DESC LIMIT ?, ?";
 		   
-		   String sql = "SELECT g.goods_no goodsNo,\r\n"
-		   		+ "		    g.goods_name goodsName,\r\n"
-		   		+ "		    g.goods_price goodsPrice,\r\n"
-		   		+ "		    gi.filename fileName		  \r\n"
-		   		+ "		    FROM\r\n"
-		   		+ "		    goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum\r\n"
-		   		+ "							    FROM orders\r\n"
-		   		+ "							    GROUP BY goods_no) t \r\n"
-		   		+ "							    ON g.goods_no = t.goods_no\r\n"
-		   		+ "							    	INNER JOIN goods_img gi\r\n"
-		   		+ "							    	ON g.goods_no = gi.goods_no\r\n"
-		   		+ "			ORDER BY IFNULL(t.sumNum, 0) DESC";
+		   // 조건부 정렬을 위해 정렬의 기준이 되는 부분을 sort로 변경
+		  
 		   
 		   PreparedStatement stmt = null;
 		   ResultSet rs =null;		   
 		   
-		   
+		   System.out.println(beginRow);
+		   System.out.println(rowPerPage);
 		   try {
-		   stmt = conn.prepareStatement(sql);
-		   rs = stmt.executeQuery();
+			   list = new ArrayList<Map<String,Object>>();
+			   stmt = conn.prepareStatement(sql);
+			   stmt.setInt(1, beginRow);
+			   stmt.setInt(2, rowPerPage);
+			   rs = stmt.executeQuery();
 		   
 		   while(rs.next()) {
 			   Map<String, Object> map = new HashMap<String, Object>();

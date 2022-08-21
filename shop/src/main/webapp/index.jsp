@@ -10,8 +10,12 @@
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 			
 		return;
-	} else 
+	} else {
 	
+	String customerId = (String)session.getAttribute("id");	
+	
+	System.out.println(customerId+"<-17번째줄");
+	}
 		
 %>    
     
@@ -41,7 +45,7 @@
 	
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/customer/customerOrderList.jsp"> 주문관리 </a></li>
-		<li><a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp"> 상품보기 </a></li>
+		<li><a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?customerId=<%=session.getAttribute("id") %>" > 상품보기 </a></li>
 	
 	</ul>
 	

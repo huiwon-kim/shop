@@ -12,7 +12,24 @@
 	
 	request.setCharacterEncoding("utf-8");
 	
-	// 행이 아니라 열로 출력할거래!
+
+
+
+/*
+	String sort = null;
+	
+	if (sort ==null) {
+		sort = "g.goods_no DESC";
+	}
+
+*/
+	
+
+
+
+
+
+	// 행이 아니라 열로 출력할거래!! 페이징
 	int rowPerPage = 20;
 	if(request.getParameter("rowPerPage") !=null) {
 		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
@@ -25,7 +42,10 @@
 	
 	int lastPage=0;
 	
-	
+	//String customerId = request.getParameter("custoemrId");
+	String customerId = (String)session.getAttribute("id");
+	System.out.print(customerId+"<-custoemrGoodslist 의 custoemrId");	
+
 	GoodsService goodsService = new GoodsService();
 	//customerService.getcustomerGoodsListByPage(rowPerPage, currentPage);
 	
@@ -34,11 +54,20 @@
 
 	// 뷰는 모델값을 출력하는 역할 / 모델까지 현재 컨트롤러가 갖고있음 / 나중엔 뷰도 분리함
 	
-	lastPage = goodsService.getcustomerGoodsListByPage(rowPerPage, currentPage);
-	System.out.print(lastPage);
-	
-	
+	lastPage = goodsService.getcustomerGoodsListLastPage(rowPerPage);
+	System.out.print(lastPage);	
+
 %>
+
+
+<!--  창희는 그 정렬 쿼리에서 order by 다음 limit ?,? 이전 부분을 sort로 처리
+이후 sort를 여기서 버튼 누를 때마다 바뀌게 함 -->
+
+
+
+
+
+
 
 <!--  
 
@@ -95,7 +124,7 @@
 			%>
 					<td> 
 					<div>
-						<a href="">						
+						<a href="<%=request.getContextPath()%>/customer/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo") %>&customerId=<%=session.getAttribute("id")%>">						
 						<img src='<%=request.getContextPath()%>/upload/<%=m.get("filename")%>' width="200" height="200">
 						</a>
 					</div>
@@ -134,6 +163,24 @@
 	</table>
 	
 		<!--  페이징 + 상품검색 -->
+			<!--  페이징  -->
+	<% 
+	if( currentPage >1 ) {
+	%>
+	
+	<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage-1%>"> 이전 </a>
+	
+	<% 
+	}
+	
+	if ( currentPage <lastPage) {	
+	%>
+	
+	<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage+1%>"> 다음 </a>
+
+	<%
+	}
+	%>
 
 </body>
 </html>

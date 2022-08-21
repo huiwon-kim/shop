@@ -47,7 +47,7 @@
 		<td><%=map.get("goodsNo")%></td>
 		<td><img src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>"></td>
 		<td><%=map.get("goodsName")%></td>
-		<td><%=map.get("goodPrice")%></td>
+		<td><%=map.get("goodsPrice")%></td>
 		<td><%=map.get("updateDate")%></td>
 		<td><%=map.get("createDate")%></td>
 		<td><%=map.get("soldOut")%></td>
