@@ -14,7 +14,7 @@ public class GoodsDao {
 	
 	
 		// 고객 상품 상세보기
-	   public Map<String, Object> selectcustomerGoodsOne (Connection conn, int orderNo) throws Exception {
+	   public Map<String, Object> selectcustomerGoodsOne (Connection conn, int goodsNo) throws Exception {
 		   
 		   /*
 		    테이블 3개 조인해서 일단 Map의 객체에 넣자
@@ -33,7 +33,7 @@ public class GoodsDao {
 		   		+ "		    ON g.goods_no = o.goods_no\r\n"
 		   		+ "		    INNER JOIN goods_img gi\r\n"
 		   		+ "		    ON g.goods_no = gi.goods_no\r\n"
-		   		+ "		    WHERE o.order_no=?";
+		   		+ "		    WHERE g.goods_no=?";
 		   
 		   
 		   PreparedStatement stmt = null;
@@ -46,7 +46,7 @@ public class GoodsDao {
 			   // Map의 객체 map 생성
 			   map = new HashMap<String, Object>();
 			   stmt = conn.prepareStatement(sql);
-			   stmt.setInt(1, orderNo);
+			   stmt.setInt(1, goodsNo);
 			   rs = stmt.executeQuery();
 			   
 			  
@@ -160,7 +160,7 @@ public class GoodsDao {
 			  map.put("goodsNo", rs.getInt("g.goods_no"));
 			  map.put("goodsName", rs.getString("g.goods_name"));
 			  map.put("goodsPrice", rs.getString("g.goods_price"));
-			  map.put("fileName", rs.getString("gi.filename"));
+			  map.put("filename", rs.getString("gi.filename"));
 			  
 			  list.add(map);
 			  System.out.println(list +"<-list에map이 추가된");

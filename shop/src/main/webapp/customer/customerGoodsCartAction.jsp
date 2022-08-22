@@ -20,8 +20,8 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));	
 	String goodsName = request.getParameter("goodsName");	
 	int orderQuantity = Integer.parseInt(request.getParameter("orderQuantity"));
-	String customerId = request.getParameter("custoemrId");
-	//String customerId = (String)session.getAttribute("custoemrId");
+	//String customerId = request.getParameter("custoemrId");
+	String customerId = (String)session.getAttribute("id");
 
 	int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
 		
@@ -45,6 +45,8 @@
 	parmamcart.setOrderQuantity(orderQuantity);
 	parmamcart.setGoodsPrice(goodsPrice);
 	parmamcart.setCustomerId(customerId);
+	
+	
 	System.out.println(parmamcart +"<-cart");
 	
 	
@@ -52,21 +54,20 @@
 	int row = 0;
 
 	CustomerCartService customerCartService = new CustomerCartService();
+	customerCartService.addcustomerCart(parmamcart);
 	row = customerCartService.addcustomerCart(parmamcart);
 	
-	System.out.println(row + "<-row");
+	//System.out.println(row + "<-row");
 	
 	
 	if(row ==0) {
 		System.out.println("카트에 담기 실패!");
-		response.sendRedirect(request.getContextPath() + "/customer/customerGoodsList.jsp?");
+		response.sendRedirect(request.getContextPath() + "/customer/customerGoodsList.jsp");
 		} else {
-			System.out.println("카트에 담기 성공!");
-	
-			
-			
-			response.sendRedirect(request.getContextPath() + "/customerGoodscart.jsp");	
+			System.out.println("카트에 담기 성공!");	
+			response.sendRedirect(request.getContextPath() + "/customer/customerGoodscart.jsp");	
 		}
 	
+	//response.sendRedirect(request.getContextPath() + "/cutomer/customerGoodsList.jsp");	
 %>        
    

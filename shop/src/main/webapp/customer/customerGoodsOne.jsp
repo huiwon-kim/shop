@@ -17,7 +17,7 @@
 	
 	String customerId = request.getParameter("customerId");
 	//String customerId = (String)session.getAttribute("id");
-	System.out.println(customerId+"<-list의customerId");
+	System.out.println(customerId+"<-customerGoodslist의customerId");
 
 %>    
     
@@ -84,6 +84,23 @@
 </table>
 </form>	
 여기에 리뷰달기 근데 이제 방명록같이 다는...
+
+<h3> REVIEW </h3>
+<form action ="<%=request.getContextPath() %>/customer/customerGoodsReviewAction.jsp" method="post" >
+<table border="1">
+
+<tr>
+	<td><input type="hidden" value="<%=map.get("goodsNo")%>" name="goodsNo"></td>
+	<td> Reviewer</td>
+	<td> <input type="text" value=<%=request.getParameter("customerId")%> id="customerId" name="customerId" ></td>
+	<td> Review </td>
+	<td> <textarea rows="5" cols="30" name="reviewContent"></textarea></td>	
+
+</tr>
+</table>
+	<button type ="submit"> 댓글입력 </button>
+	<button type ="reset"> 초기화 </button>
+</form>
 
 </body>
 </html>

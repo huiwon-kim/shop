@@ -7,13 +7,10 @@
 <%
 	// Controller : java class <- Servlet
 	// 로퍼페이지랑 커렌
-	
-	
+		
 	
 	request.setCharacterEncoding("utf-8");
 	
-
-
 
 /*
 	String sort = null;
@@ -24,10 +21,6 @@
 
 */
 	
-
-
-
-
 
 	// 행이 아니라 열로 출력할거래!! 페이징
 	int rowPerPage = 20;
@@ -42,9 +35,9 @@
 	
 	int lastPage=0;
 	
-	//String customerId = request.getParameter("custoemrId");
-	String customerId = (String)session.getAttribute("id");
-	System.out.print(customerId+"<-custoemrGoodslist 의 custoemrId");	
+	String customerId = request.getParameter("customerId");
+	//String customerId = (String)session.getAttribute("id");
+	System.out.print(customerId+"<-custoemrGoodslist 의 customerId");	
 
 	GoodsService goodsService = new GoodsService();
 	//customerService.getcustomerGoodsListByPage(rowPerPage, currentPage);
@@ -120,7 +113,7 @@
 		<tr>
 			<%
 				int i=1;
-				for(Map<String, Object> m : list) {
+				for( Map<String, Object> m : list) {
 			%>
 					<td> 
 					<div>

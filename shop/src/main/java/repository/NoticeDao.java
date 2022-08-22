@@ -14,20 +14,15 @@ public class NoticeDao {
 	// 공지사항 글입력용
 	public int insertNotice(Connection conn, Notice notice) throws SQLException {
 		/*
-		INSERT INTO notice
-		(employee_id, notice_pass, notice_title, notice_content,
-		update_date, create_date)
-		VALUES
-		(?, PASSWORD(?), ?, ?, NOW(), NOW()) 
-		  
+		INSERT INTO review
+		(goods_no, customer_id, review_content, update_date, create_date)
+		VALUES (?, ?, ?, NOW(), NOW());	
 		 */
 		int row = 0;
 		
-		String sql ="		INSERT INTO notice\r\n"
-				+ "		(employee_id, notice_pass, notice_title, notice_content,\r\n"
-				+ "		update_date, create_date)\r\n"
-				+ "		VALUES\r\n"
-				+ "		(?, PASSWORD(?), ?, ?, NOW(), NOW()) ";
+		String sql ="		INSERT INTO review\r\n"
+				+ "		(goods_no, customer_id, review_pass ,review_content, update_date, create_date)\r\n"
+				+ "		VALUES (?, ?, PASSWORD(?), ?, NOW(), NOW())";
 	
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

@@ -27,7 +27,7 @@ public class GoodsService {
 	// DAO안에 5개의 메서드가 있음. 이 5개 메서드들은 다같은 DAO를 가져오겠지 필요할때마다 객체를 마만들겠징
 
 	// 고객상품리스트 페이지상세보기
-	public Map<String, Object> getcustomerGoodsOne(int orderNo) {
+	public Map<String, Object> getcustomerGoodsOne(int goodsNo) {
 		
 		Map<String,Object> map = null;
 		
@@ -37,7 +37,7 @@ public class GoodsService {
 			conn = new DBUtil().getConnection();
 			conn.setAutoCommit(false);
 			GoodsDao goodsDao = new GoodsDao(); 	
-			map = goodsDao.selectcustomerGoodsOne(conn, orderNo);
+			map = goodsDao.selectcustomerGoodsOne(conn, goodsNo);
 			
 			System.out.print(map +"<-getcustomerGoodsOne의 map");
 			

@@ -44,9 +44,10 @@
 	%>
 	
 	<ul>
+		<li><a href="<%=request.getContextPath()%>/customer/customerCartList.jsp?customerId=<%=session.getAttribute("id") %>"> 장바구니 </a>
 		<li><a href="<%=request.getContextPath()%>/customer/customerOrderList.jsp"> 주문관리 </a></li>
 		<li><a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?customerId=<%=session.getAttribute("id") %>" > 상품보기 </a></li>
-	
+		<li><a href=""
 	</ul>
 	
 	<%
