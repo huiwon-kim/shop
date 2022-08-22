@@ -14,25 +14,18 @@ public class ReviewService {
 		Connection conn = null;
 		Review review = new Review();
 		
-				
+		
 		
 		try {
 			conn = new DBUtil().getConnection();
 			
 			ReviewDao reviewDao = new ReviewDao();
 			review = reviewDao.selectReview(conn, goodsNo);
-			System.out.println(review +"<-getReview의 review");
-			
+		
 			conn.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		} finally {
 			try {
 				conn.close();
@@ -40,9 +33,9 @@ public class ReviewService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
-				
+		
+		
 		return review;
 	}
 	

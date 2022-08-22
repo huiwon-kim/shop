@@ -25,10 +25,9 @@ public class ReviewDao {
 		 
 		*/
 		
-		String sql = "		SELECT \r\n"
-				+ "		 goods_no, customer_id, review_content, update_date,\r\n"
-				+ "		 create_date\r\n"
-				+ "		 FROM review\r\n"
+		String sql = "		SELECT "
+				+ "		 goods_no, customer_id, review_content, update_date, create_date"
+				+ "		 FROM review"
 				+ "		 WHERE goods_no=?";
 		
 		Review review = new Review();		
@@ -68,13 +67,11 @@ public class ReviewDao {
 		INERT INRO review
 		(goods_no, customer_id, review_content, update_date, create_date) 
 		VALUES (?, ?, ?, NOW(), NOW()
-		WHERE goods_no=?
 		
 		*/
-		String sql = "		INSERT INRO review\r\n"
-				+ "		(goods_no, customer_id, review_content, update_date, create_date) \r\n"
-				+ "		VALUES (?, ?, ?, NOW(), NOW()\r\n"
-				+ "		WHERE goods_no=?";
+		String sql = "		INSERT INTO review"
+				+ "		(goods_no, customer_id, review_pass, review_content, update_date, create_date)"
+				+ "		VALUES (?, ?, PASSWORD(?), ?, NOW(), NOW())";
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -84,19 +81,13 @@ public class ReviewDao {
 		try {
 			stmt= conn.prepareStatement(sql);
 			stmt.setInt(1, paramreview.getGoodsNo());
-			
+			stmt.setString(2, paramreview.getCustomerId());
+			stmt.setString(3, paramreview.getReviewPass());
+			stmt.setString(4, paramreview.getReviewContent());
 			result=stmt.executeUpdate();
 			
-			if(rs.next()) {
-				review = new Review();
-				review.setGoodsNo(rs.getInt("goods_no"));
-				review.setCustomerId(rs.getString("customer_id"));
-				review.setReviewContent(rs.getString("review_content"));
-				
-				// 디버깅
-				System.out.println(review);
-			}
-			
+		
+			System.out.println(result+"<-resultresultresult");
 		} finally {
 			if(rs!=null) {rs.close();}
 			if(stmt!=null) {stmt.close();}

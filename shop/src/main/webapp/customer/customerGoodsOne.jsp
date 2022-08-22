@@ -19,6 +19,17 @@
 	//String customerId = (String)session.getAttribute("id");
 	System.out.println(customerId+"<-customerGoodslist의customerId");
 
+	/*
+	ReviewService reviewService = new ReviewService();
+	Review showReview = new Review();
+	
+	showReview = reviewService.getReview(goodsNo);
+	
+	showReview.setCustomerId(customerId);
+	showReview.setReviewContent(reviewContent);
+	showReview.setCustomerId(customerId);
+	*/
+	
 %>    
     
 
@@ -92,7 +103,9 @@
 <tr>
 	<td><input type="hidden" value="<%=map.get("goodsNo")%>" name="goodsNo"></td>
 	<td> Reviewer</td>
-	<td> <input type="text" value=<%=request.getParameter("customerId")%> id="customerId" name="customerId" ></td>
+	<td> <input type="text" value=<%=request.getParameter("customerId")%> id="customerId" name="customerId" readonly='readonly'></td>
+	<td> Pass </td>
+	<td> <input type="password" id="reviewPass" name="reviewPass" ></td>
 	<td> Review </td>
 	<td> <textarea rows="5" cols="30" name="reviewContent"></textarea></td>	
 
@@ -101,6 +114,23 @@
 	<button type ="submit"> 댓글입력 </button>
 	<button type ="reset"> 초기화 </button>
 </form>
+
+
+<%
+
+	ReviewService reviewService = new ReviewService();
+	Review showReview = new Review();
+	
+	showReview = reviewService.getReview(goodsNo);
+	
+	showReview.setCustomerId(customerId);
+	showReview.setReviewContent(reviewContent);
+	showReview.setCustomerId(customerId);
+
+%>
+
+
+<h3> More Review </h3>
 
 </body>
 </html>

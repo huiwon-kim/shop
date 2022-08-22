@@ -2,6 +2,7 @@ package vo;
 
 public class Review {
 	private int goodsNo;
+	private int reviewNo;
 	private String customerId;
 	private String reviewPass;
 	private String reviewContent;
@@ -14,6 +15,12 @@ public class Review {
 	
 	public String getReviewPass() {
 		return reviewPass;
+	}
+	public int getReviewNo() {
+		return reviewNo;
+	}
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
 	}
 	public void setReviewPass(String reviewPass) {
 		this.reviewPass = reviewPass;
