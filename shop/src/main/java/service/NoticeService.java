@@ -12,6 +12,88 @@ public class NoticeService {
 	private NoticeDao noticeDao;
 
 	
+	
+	// 공지사항 수정
+	public int motifyNotice(Notice parmanotice) {
+		Connection conn = null;
+		int row = 0;
+		
+		try {
+			conn = new DBUtil().getConnection(); // DB연동
+			conn.setAutoCommit(false); // 자동커밋방지
+			
+			
+			// NoticeDao 객체생성
+			NoticeDao noticeDao = new NoticeDao();
+			
+			row = noticeDao.updateNotice(conn, parmanotice);
+			
+			System.out.println(row +"<-SERVICE motifyNotice의 ROW");
+			conn.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+	
+	
+	// 공지사항 상세보기
+	public Notice getnoticeOne(int noticeNo) {
+		Connection conn = null;
+		int row = 0;
+		Notice paramnotice = new Notice();
+		
+		try {
+			conn = new DBUtil().getConnection(); // DB연동
+			conn.setAutoCommit(false); // 자동커밋방지
+			
+			
+			// NoticeDao 객체생성
+			NoticeDao noticeDao = new NoticeDao();
+			// 리턴할 객체에 DAO안 메서드 실행시켜 담기
+			paramnotice=noticeDao.noticeOne(conn, noticeNo);
+			
+			System.out.println(paramnotice);
+			conn.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		return paramnotice;
+	}
+	
+	
 	// 공지 입력하기
 	public int getNotice (Notice notice) {
 		Connection conn = null;

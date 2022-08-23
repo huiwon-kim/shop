@@ -13,8 +13,15 @@
 	String customerId = request.getParameter("customerId");
 	String customerPass = request.getParameter("customerPass");
 	String customerName = request.getParameter("customerName");
-	String customerAddress = request.getParameter("customerAddress");
+	String customerAddress = request.getParameter("addr");
+	String customerDetailAddress = request.getParameter("detailAddr");
 	String customerTelephone = request.getParameter("customerTelephone");
+	
+	
+	System.out.println(customerDetailAddress +"<-customerDetailAddress");
+	
+	
+	
 	
 	
 	// Customer 객체 생성 후 값들 넣어주기	
@@ -23,6 +30,7 @@
 	paramCustomer.setCustomerPass(customerPass);
 	paramCustomer.setCustomerName(customerName);
 	paramCustomer.setCustomerAddress(customerAddress);
+	paramCustomer.setCustomerDetailAddress(customerDetailAddress);
 	paramCustomer.setCustomerTelephone(customerTelephone);
 	
 	

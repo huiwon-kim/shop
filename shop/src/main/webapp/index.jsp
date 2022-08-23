@@ -35,7 +35,7 @@
 	<%=session.getAttribute("name") %> <!-- 로그인 이름 -->
 	<br>
 	<a href="<%=request.getContextPath()%>/logout.jsp"> 로그아웃 </a>
-	<a href="<%=request.getContextPath()%>/info.jsp"> 회원정보상세보기 </a>
+	<a href="<%=request.getContextPath()%>/customerinfo.jsp?customerId=<%=session.getAttribute("id") %>">  회원정보상세보기 </a>
 	<a href="<%=request.getContextPath()%>/remove<%=session.getAttribute("user")%>Form.jsp"> 회원탈퇴 </a>
 	
 	
@@ -47,7 +47,7 @@
 		<li><a href="<%=request.getContextPath()%>/customer/customerCartList.jsp?customerId=<%=session.getAttribute("id") %>"> 장바구니 </a>
 		<li><a href="<%=request.getContextPath()%>/customer/customerOrderList.jsp"> 주문관리 </a></li>
 		<li><a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?customerId=<%=session.getAttribute("id") %>" > 상품보기 </a></li>
-		<li><a href=""
+	<li><a href="<%=request.getContextPath()%>/noticeList.jsp" > 공지사항 </a></li><!-- CRUD -->
 	</ul>
 	
 	<%

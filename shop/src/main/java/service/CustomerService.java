@@ -12,6 +12,7 @@ import java.util.Map;
 import repository.CustomerDao;
 import repository.OutIdDao;
 import vo.Customer;
+import vo.Notice;
 import vo.OutId;
 
 //여기가 이제 트랜젝션과 conn 처리하는듯?
@@ -22,7 +23,47 @@ public class CustomerService { // 서비스는 이름 유연하게 써도 된대
 	
 	
 	
+	// 회정상세보기(회원용)
+	public Customer getCustomermore(String customerId) {
+//		/List<Customer> list = new ArrayList<Customer>();
+		Connection conn = null;
+		Customer paramcustomer = new Customer();
+		
+		try {
+			conn = new DBUtil().getConnection(); // 디비연동
+			conn.setAutoCommit(false); // 자동커밋 방지
+			
+			CustomerDao customerDao = new CustomerDao();	
+			
+			paramcustomer = customerDao.selectCustomermore(conn, customerId);
+			System.out.println(paramcustomer+"<-리턴할 getCustomermore list에 담긴 것들");
+			conn.commit();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+			
+		return paramcustomer;
+		
+	}
 	
+	
+	// 회원가입
 	public void signInCustomer(Customer paramCustomer) {
 		// Customer에 담을 필요가 없다
 		// insertCustomer만 실행하면 끝인거야

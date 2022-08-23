@@ -7,6 +7,10 @@
 
 
  <%
+	//인코딩
+	request.setCharacterEncoding("utf-8");
+ 
+ 
  	// 변수 받아오기
  	String ckId = request.getParameter("ckId");  
  

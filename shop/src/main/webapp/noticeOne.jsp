@@ -11,6 +11,7 @@
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 
+	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 	
 	int rowPerPage = 5;
 	int currentPage = 1;
@@ -20,12 +21,21 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 
+	/*
 	NoticeService noticeService = new NoticeService();
 	List<Notice> list = new ArrayList<Notice>();
 	
-	list = noticeService.getNoticeList(rowPerPage, currentPage);
+	list = noticeService.getnoticeOne(noticeNo);
 	lastPage= noticeService.getNoticeListLastPage(rowPerPage);
 	System.out.println(lastPage);
+	*/
+	
+	NoticeService noticeService = new NoticeService();
+	Notice paramnotice = new Notice();
+	paramnotice = noticeService.getnoticeOne(noticeNo);
+	
+	System.out.println(paramnotice + "<-paramnotice");
+	
 	
 %>
 
@@ -53,36 +63,50 @@
 
 <h1> 공지사항 상세보기 </h1>
 
+
 <div>
+<form action ="<%=request.getContextPath()%>/noticeUpdate.jsp" method="post">
+
 	<table border="1">
 	<thead>
 	
-		<%
-			for (Notice n : list) {
-		%>
+
 		<tr>
-		<td colspan="4"> Title; <%=n.getNoticeTitle() %> </td>
+		<td colspan="4"> Title; <%=paramnotice.getNoticeTitle() %> 
+			<input type="hidden" name="noticeTitle" id="noticeTitle" value="<%=paramnotice.getNoticeTitle() %> ">
+		</td>
 		</tr>
 		<tr>
 			
-			<td> Notice No; <%=n.getNoticeNo() %> </td>
-			<td> Writer; <%=n.getWriter() %></td>
-			<td> Create Date; <%=n.getCreateDate() %> </td>
+			<td> Notice No; <%=paramnotice.getNoticeNo() %> 
+				<input type="hidden" name="noticeNo" id="noticeNo" value="<%=paramnotice.getNoticeNo()%>">
+			
+				<%
+				System.out.println(noticeNo);
+				%>
+			</td>
+			<td> Writer; <%=paramnotice.getWriter() %>
+				<input type="hidden" name="noticeWriter" id="noticeWriter" value="<%=paramnotice.getWriter() %> ">
+			</td>
+			<td> Create Date; <%=paramnotice.getCreateDate() %> 
+				<input type="hidden" name="noticeTitle" id="noticeTitle" value="<%=paramnotice.getCreateDate() %> ">
+			</td>
 		</tr>
 	
 		<tr>
-		<td colspan="3"> <%=n.getNoticeContent() %>정말 ㄹㅇ 본문 ㅈ근데 병합</td>
+		<td colspan="3"> <%=paramnotice.getNoticeContent() %>정말 ㄹㅇ 본문 ㅈ근데 병합
+				<input type="hidden" name="noticeContent" id="noticeContent" value="<%=paramnotice.getNoticeContent() %> ">
+		</td>
 		
 		</tr>
 	</thead>
 	<tbody>
 
 </tbody>
-
-		<%
-			}
-		%>
 </table>
+	<button type="submit"> 수정 </button>
+</form>
+
 </div>
 </body>
 </html>

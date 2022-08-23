@@ -14,8 +14,8 @@ public class SignService {
 	
 	
 	
-
-		// 회원가입시 id 중복체크용 ajax이용
+/*
+		// 회원가입시 id 중복체크용 >>> ajax이용
 	public String getIdCheck(String ckId) {
 		//null이 넘어오면 사용가능한 아이디. 아니면 사요불가능
 		Connection conn = null;
@@ -50,11 +50,11 @@ public class SignService {
 		
 		return id;
 	}
-	
+*/	
 		
 	
 	
-/*	
+	
 	// return
 	// true : 사용 가능한 아이디
 	// false : 사용 불가능한 아이디

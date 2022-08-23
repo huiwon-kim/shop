@@ -4,16 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import service.DBUtil;
 import vo.Customer;
+import vo.Notice;
 
 //여기는 어제와 같은 dao같아 그 sql문만 처리하는
 public class CustomerDao { 
 
 	
-	// 회원목록 상세보기
-	public Customer selectCustomermore(Connection conn, Customer paramCustomer) {
+	// 회정상세보기(회원용)
+	public Customer selectCustomermore(Connection conn, String customerId) throws Exception {
 		
 		
 		/*
@@ -30,19 +33,51 @@ public class CustomerDao {
 		
 		*/
 	
-		String sql="		SELECT\r\n"
-				+ "		customer_id customerId,\r\n"
-				+ "		customer_pass customerPass,\r\n"
-				+ "		customer_name customerName,\r\n"
-				+ "		customer_address customerAddress,\r\n"
-				+ "		customer_telephone customerTelephone,\r\n"
-				+ "		update_date updateDate,\r\n"
-				+ "		create_date createDate\r\n"
-				+ "		FROM customer";
+		String sql="		SELECT"
+				+ "		customer_id,"
+				+ "		customer_pass,"
+				+ "		customer_name,"
+				+ "		customer_address,"
+				+ "		customer_telephone,"
+				+ "		customer_dedatiladdr,"
+				+ "		update_date,\r\n"
+				+ "		create_date\r\n"
+				+ "		FROM customer"
+				+ "		WHERE customer_id=?";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		Customer paramcustomer = new Customer();
 		
 		
+		
+		try {
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);	
+		rs = stmt.executeQuery();
+		
+			while(rs.next()) {
+				// 맞다면 (쿼리에서 찾는다면 paramcustomer에 저장할거양)
+				paramcustomer = new Customer();
+				paramcustomer.setCustomerId(rs.getString("customer_id"));
+				paramcustomer.setCustomerName(rs.getString("customer_name"));
+				paramcustomer.setCustomerAddress(rs.getString("customer_address"));
+				paramcustomer.setCustomerDetailAddress(rs.getString("customer_dedatiladdr"));
+				paramcustomer.setCustomerTelephone(rs.getString("customer_telephone"));
+				paramcustomer.setUpdateDate(rs.getString("update_date"));
+				paramcustomer.setCreateDate(rs.getString("create_date"));
+			
+	
+				// 디버깅
+				System.out.println(paramcustomer+"<-리턴할 selectCustomermore paramcustomer에 담긴 것들");
+			}
+			
+		} finally {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+		}
+		
+		
+		return paramcustomer;
 	}
 	
 	
@@ -63,15 +98,17 @@ public class CustomerDao {
 		 ?, ?, ?, ?, ?, NOW(), NOW());
 		 */
 		
-		String sql = " INSERT INTO customer (\r\n"
-				+ "		 customer_id,"
-				+ "		 customer_pass,"
-				+ "		 customer_name,"
-				+ "		 customer_address,"
-				+ "		 customer_telephone,"
-				+ "		 update_date,"
-				+ "		 create_date) VALUES (\r\n"
-				+ "		 ?, PASSWORD(?), ?, ?, ?, NOW(), NOW())";
+		String sql = 
+				"		 INSERT INTO customer (\r\n"
+				+ "customer_id,\r\n"
+				+ "customer_pass,\r\n"
+				+ "customer_name,\r\n"
+				+ "customer_address,\r\n"
+				+ "customer_dedatiladdr,\r\n"
+				+ "customer_telephone,\r\n"
+				+ "update_date,\r\n"
+				+ "create_date) VALUES (\r\n"
+				+ "?, PASSWORD(?), ?, ?, ?, ?,  NOW(), NOW())";
 		
 		PreparedStatement stmt = null;
 	
@@ -83,7 +120,8 @@ public class CustomerDao {
 			 stmt.setString(2, paramCustomer.getCustomerPass());
 			 stmt.setString(3, paramCustomer.getCustomerName());
 			 stmt.setString(4, paramCustomer.getCustomerAddress());
-			 stmt.setString(5, paramCustomer.getCustomerTelephone());
+			 stmt.setString(5, paramCustomer.getCustomerDetailAddress());
+			 stmt.setString(6, paramCustomer.getCustomerTelephone());
 			
 			 row = stmt.executeUpdate(); // 성공하면 1 / 0이
 		} finally {		
@@ -155,9 +193,9 @@ public class CustomerDao {
 			 */
 			
 			String sql ="SELECT \r\n"
-					+ "			  customer_id customerId, \r\n"
-					+ "			  customer_pass customerPass, \r\n"
-					+ "			  customer_name customerName\r\n"
+					+ "			  customer_id customerId,"
+					+ "			  customer_pass customerPass,"
+					+ "			  customer_name customerName"
 					+ "			  FROM customer WHERE\r\n"
 					+ "			  customer_id=? AND customer_pass=PASSWORD(?)";
 	 

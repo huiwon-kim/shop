@@ -9,7 +9,7 @@ import vo.*;
 
 public class SignDao {
 	
-	
+	/*
 	// 아이디체크 (ajax & 제이쿼리)
 	public String selectIdCheck(Connection conn, String ckId) throws Exception {
 		String id = null;
@@ -23,7 +23,7 @@ public class SignDao {
 		UNION
 		SELECT out_id id FROM  outid) t
 		WHERE t.id = ?
-		*/
+		
 		String sql ="SELECT t.id "
 				+ "FROM "
 				+ "(SELECT customer_id id "
@@ -53,26 +53,21 @@ public class SignDao {
 		}
 		return id;//동일한 아이디가 있으면 id가 리턴 아니면 null이 리턴됨
 	}
+*/
+	
+	
 
-	
-	
-/*	
 	
 	// 아이디체크				// 커넥션을 주입하는 계층은 컨트롤러계층 다음 서비스계층에서 dao를 호출. 서비스계층에서 conn 주입
 	public String idCheck(Connection conn, String id) throws SQLException {
 		String ckId = null;
 		
-		
-		 t는 임시 알리언스; ()안의 결과물을 t라고 임시 이름을 붙인거
-		SELECT t.id
-		FROM 	(SELECT customer_id id FROM customer
-				UNION
-				SELECT	employee_id id FROM employee
-				UNION
-				SELECT out_id id FROM outid) t
-		WHERE t.id=?
-		->> 결과물이 null일 때 사용가능한 아이디 (true리턴)
-				  !null 이면 false 리턴
+		/*
+		 * t는 임시 알리언스; ()안의 결과물을 t라고 임시 이름을 붙인거 SELECT t.id FROM (SELECT customer_id id
+		 * FROM customer UNION SELECT employee_id id FROM employee UNION SELECT out_id
+		 * id FROM outid) t WHERE t.id=? ->> 결과물이 null일 때 사용가능한 아이디 (true리턴) !null 이면
+		 * false 리턴
+		 */
 		
 		
 		
@@ -95,10 +90,13 @@ public class SignDao {
 			stmt.setString(1, id);			
 			rs = stmt.executeQuery();
 			
+			if(rs.next()) {
+				ckId = rs.getString("t.id");
+			}
 		
 			if(rs==null) {stmt.close();}
 			else {rs.close();}
 			
 		return ckId;
-	} */
+	} 
 }
